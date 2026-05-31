@@ -52,6 +52,13 @@ function wirePage(key){
 //   window.location.href = website;
 // }
 
+content.querySelectorAll('a.route-link').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    location.hash = a.getAttribute('href');
+  });
+});
+
 
 // init routing
 window.addEventListener('hashchange', ()=> render(location.hash));
