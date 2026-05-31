@@ -43,6 +43,10 @@ function wirePage(key){
 }
 
 
+function _go_to(website){
+  window.location.href = website;
+}
+
 
 // init routing
 window.addEventListener('hashchange', ()=> render(location.hash));
