@@ -28,12 +28,17 @@ function render(route){
 }
 
 function wirePage(key){
-  // links
   content.querySelectorAll('a.link').forEach(a=>{
     a.addEventListener('click', e=>{
-      e.preventDefault();
       const href = a.getAttribute('href');
-      location.hash = href;
+
+      // Only handle internal routes
+      if (href.startsWith('#/')) {
+        e.preventDefault();
+        location.hash = href;
+      }
+
+      // External links are left alone
     });
   });
 
@@ -43,9 +48,9 @@ function wirePage(key){
 }
 
 
-function _go_to(website){
-  window.location.href = website;
-}
+// function _go_to(website){
+//   window.location.href = website;
+// }
 
 
 // init routing
