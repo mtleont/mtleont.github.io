@@ -1,100 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="mtleont">
-    <meta name="theme-color" content="#0a0a0a">
-    <link rel="icon" href="icon0.png" type="image/png">
-    <title>mtleont</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="assets/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Win95 Site</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+  {
+    "imports": {}
+  }
+  </script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="nav-logo">
-                <img src="pfp.jpg" alt="mtleont">
-                <span>mtleont</span>
-            </a>
-            
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link active">Home</a></li>
-                <li><a href="blog.html" class="nav-link">Blog</a></li>
-                <li><a href="projects.html" class="nav-link">Projects</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-            </ul>
-            
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
+  <div id="site">
+    <header class="topbar">
+      <div class="brand">Win95 Style</div>
+      <nav class="nav-buttons" role="navigation" aria-label="Sections">
+        <button class="nav-btn task-item active" data-route="#/home">Home</button>
+        <button class="nav-btn task-item" data-route="#/about">About</button>
+        <button class="nav-btn task-item" data-route="#/contact">Contact</button>
+      </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div id="particles-js"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">mtleont</h1>
-            <p class="hero-tagline">Welcome to my website</p>
-            <div class="hero-cta">
-                <a href="blog.html" class="btn btn-primary" data-tooltip="Read my blog posts">Read Blog</a>
-                <a href="projects.html" class="btn btn-secondary" data-tooltip="View my projects">View Projects</a>
-            </div>
-        </div>
-    </section>
+    <main id="content" class="content-area" role="main">
+      <!-- App content injected here -->
+    </main>
 
-    <!-- Recent Blog Posts -->
-    <section>
-        <div class="container">
-            <div class="section-header">
-                <h2>Recent Posts</h2>
-                <p>Latest from the blog</p>
-            </div>
-            
-            <div class="blog-grid" id="blog-posts">
-                <div class="blog-placeholder">
-                    <p>Loading posts...</p>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="blog.html" class="btn btn-secondary">View All Posts</a>
-            </div>
-        </div>
-    </section>
+    <footer class="statusbar" id="statusbar">Ready</footer>
+  </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p class="footer-text">&copy; 2026 mtleont <img src="weblogo.png" alt="logo" style="height: 40px; vertical-align: middle; margin-left: 8px;"></p>
-                <div class="footer-links">
-                    <a href="https://github.com/mtleont" class="footer-link" target="_blank" data-tooltip="GitHub">GitHub</a>
-                    <a href="https://twitch.tv/ddeathtrain12" class="footer-link" target="_blank" data-tooltip="Twitch">Twitch</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <template id="tmpl-home">
+    <div class="page">
+      <h1>Welcome</h1>
+      <p>This is a Windows 95 themed site. Use the taskbar or links to navigate.</p>
+      <p><a href="#/about" class="link">About</a> · <a href="#/contact" class="link">Contact</a></p>
+    </div>
+  </template>
 
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    
-    <!-- Popper.js (required for Tippy) -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <!-- Tippy.js -->
-    <script src="https://unpkg.com/tippy.js@6"></script>
-    
-    <!-- Main Script -->
-    <script src="assets/main.js"></script>
+  <template id="tmpl-about">
+    <div class="page">
+      <h1>About</h1>
+      <p>This site is styled like Windows 95. It's a small single-page app with pages loaded by hash routing.</p>
+    </div>
+  </template>
+
+  <template id="tmpl-contact">
+    <div class="page">
+      <h1>Contact</h1>
+
+      <div class="contact-info" style="margin-bottom:12px">
+        <p style="margin:4px 0"><strong>Company:</strong> Retro Widgets Inc.</p>
+        <p style="margin:4px 0"><strong>Phone:</strong> (555) 019-4590</p>
+        <p style="margin:4px 0"><strong>Email:</strong> <a href="mailto:hello@retrowidgets.example" class="link">hello@retrowidgets.example</a></p>
+        <p style="margin:4px 0"><strong>Address:</strong> 123 Vintage Ave, Suite 95, Nostalgia City</p>
+        <p style="margin:4px 0"><strong>Hours:</strong> Mon–Fri 9:00 — 17:00</p>
+      </div>
+    </div>
+  </template>
+
+
+
+  <script src="app.js" type="module"></script>
 </body>
 </html>

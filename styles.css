@@ -1,0 +1,112 @@
+/* Windows 95 look - compact and classic */
+:root{
+  --bg:#008080;
+  --window-bg:#c0c0c0;
+  --panel:#e0e0e0;
+  --titlebar:#000080; /* solid Windows 95 blue */
+  --title-text:#ffffff;
+  --border-dark:#404040;
+  --border-light:#ffffff;
+  /* Use classic Windows 95–style fonts; fall back to common sans fonts */
+  --font: "MS Sans Serif", "Microsoft Sans Serif", Tahoma, Arial, sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);font-family:var(--font);-webkit-font-smoothing:antialiased}
+/* site wrapper instead of desktop/window */
+#site{min-height:100vh;padding:18px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+/* Title / brand: solid blue (no gradient) and sharp 3D border like Win95 */
+.brand{
+  font-weight:800;
+  color:var(--title-text);
+  background:var(--titlebar); /* solid color */
+  padding:8px 12px;
+  border-top:2px solid var(--border-light);
+  border-left:2px solid var(--border-light);
+  border-bottom:2px solid var(--border-dark);
+  border-right:2px solid var(--border-dark);
+  box-shadow:2px 2px 0 rgba(0,0,0,0.25);
+}
+
+/* Navigation buttons: classic Win95 3D look (light top/left, dark bottom/right).
+   No rounded corners; pressed/active state flips the border to inset appearance. */
+.nav-buttons{display:flex;gap:8px}
+.nav-btn{
+  background:var(--panel);
+  padding:6px 10px;
+  cursor:pointer;
+  font-weight:600;
+  border-top:2px solid var(--border-light);
+  border-left:2px solid var(--border-light);
+  border-bottom:2px solid var(--border-dark);
+  border-right:2px solid var(--border-dark);
+  border-radius:0;
+  color:#000;
+  user-select:none;
+}
+
+.nav-btn:active{
+  /* pressed inset look */
+  border-top:2px solid var(--border-dark);
+  border-left:2px solid var(--border-dark);
+  border-bottom:2px solid var(--border-light);
+  border-right:2px solid var(--border-light);
+}
+
+.nav-btn.active{
+  background:var(--titlebar);
+  color:var(--title-text);
+  /* active appears pressed/inset */
+  border-top:2px solid var(--border-dark);
+  border-left:2px solid var(--border-dark);
+  border-bottom:2px solid var(--border-light);
+  border-right:2px solid var(--border-light);
+}
+
+/* Content area and elements */
+.content-area{background:#fff;padding:12px;border:2px solid var(--border-dark);min-height:60vh;max-width:960px}
+.page h1{margin:0 0 8px 0;font-size:18px}
+.page p{margin:6px 0}
+.link{color:#000080;text-decoration:underline;cursor:pointer}
+.contact-form label{display:block;margin:8px 0;font-size:14px}
+.contact-form input,.contact-form textarea{
+  width:100%;
+  padding:6px;
+  border:2px inset #fff;
+  background:var(--panel);
+  outline:none;
+}
+
+/* Primary button matches nav buttons with 3D borders */
+.form-actions{margin-top:8px}
+.btn{
+  padding:6px 10px;
+  background:var(--panel);
+  border-top:2px solid var(--border-light);
+  border-left:2px solid var(--border-light);
+  border-bottom:2px solid var(--border-dark);
+  border-right:2px solid var(--border-dark);
+  cursor:pointer;
+  color:#000;
+  user-select:none;
+}
+
+.btn:active{
+  border-top:2px solid var(--border-dark);
+  border-left:2px solid var(--border-dark);
+  border-bottom:2px solid var(--border-light);
+  border-right:2px solid var(--border-light);
+}
+
+.template-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.template-card{border:2px solid var(--border-dark);background:var(--panel);padding:8px;width:160px}
+.form-result{margin-top:8px;color:green;font-weight:600}
+
+/* Responsive small screens: keep controls touch-friendly */
+@media (max-width:420px){
+  .win95-window{width:96vw;min-width:unset}
+  #taskbar{left:6px;right:6px;bottom:6px}
+  .title-btn{width:36px}
+}
