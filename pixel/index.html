@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelPainter — Pixel Art Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Title Bar -->
+    <header class="title-bar">
+      <div class="title-bar-left">
+        <span class="app-logo">🎨</span>
+        <span class="app-title">PixelPainter</span>
+      </div>
+      <div class="title-bar-center">
+        <span id="canvasInfo" class="canvas-info">32 × 32</span>
+        <span id="zoomLabel" class="zoom-label">100%</span>
+      </div>
+      <div class="title-bar-right">
+        <button id="btnUndo" class="tb-btn" title="Undo (Ctrl+Z)">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+        </button>
+        <button id="btnRedo" class="tb-btn" title="Redo (Ctrl+Y)">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg>
+        </button>
+        <button id="btnExport" class="tb-btn primary" title="Export Image">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          <span class="btn-label">Export</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Left Toolbar -->
+      <aside class="toolbar toolbar-left">
+        <div class="tool-section">
+          <button class="tool-btn active" data-tool="pencil" title="Pencil (B)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          </button>
+          <button class="tool-btn" data-tool="eraser" title="Eraser (E)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M16.24 3.56l4.2 4.2a1 1 0 010 1.42l-7.42 7.42-4.2 1.54 1.54-4.2 7.88-12.38zM5.16 18.36l.71-.71 3.54 3.54-.71.71-3.54-3.54z"/></svg>
+          </button>
+          <button class="tool-btn" data-tool="fill" title="Flood Fill (G)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 000 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/></svg>
+          </button>
+          <button class="tool-btn" data-tool="eyedropper" title="Color Picker (I)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20.71 5.63l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-3.12 3.12-1.93-1.91-1.41 1.41 1.42 1.42L3 16.25V21h4.75l8.92-8.92 1.42 1.42 1.41-1.41-1.92-1.92 3.12-3.12c.4-.4.4-1.03.01-1.42zM5.21 18.79l-1-1L12 9.98l1 1-7.79 7.79z"/></svg>
+          </button>
+        </div>
+        <div class="separator"></div>
+        <div class="tool-section">
+          <button class="tool-btn" data-tool="rect" title="Rectangle (U)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+          <button class="tool-btn" data-tool="rect-fill" title="Filled Rectangle (Shift+U)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="1" fill="currentColor"/></svg>
+          </button>
+          <button class="tool-btn" data-tool="circle" title="Ellipse (O)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><ellipse cx="12" cy="12" rx="9" ry="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+          <button class="tool-btn" data-tool="circle-fill" title="Filled Ellipse (Shift+O)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><ellipse cx="12" cy="12" rx="9" ry="9" fill="currentColor"/></svg>
+          </button>
+          <button class="tool-btn" data-tool="line" title="Line (L)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 21L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="separator"></div>
+        <div class="tool-section">
+          <button class="tool-btn" data-tool="move" title="Move Tool (M)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2v-3h-3v4h3v3h2V5h-2v3h-3V5H9v4h4v3h4v2h2v2h2v-2h2v-2z"/></svg>
+          </button>
+          <button class="tool-btn" id="btnGridToggle" title="Toggle Grid (G)">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM8 20H4V4h4v16zm6 0h-4V4h4v16zm6 0h-4V4h4v16z"/></svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Center Canvas Area -->
+      <section class="canvas-area">
+        <div class="canvas-viewport" id="canvasViewport">
+          <canvas id="mainCanvas"></canvas>
+          <div class="canvas-bg-dots"></div>
+        </div>
+        <div class="canvas-statusbar">
+          <span id="cursorPos">X: — Y: —</span>
+          <span id="toolStatus">Pencil</span>
+        </div>
+      </section>
+
+      <!-- Right Sidebar -->
+      <aside class="toolbar toolbar-right">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Canvas</span>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <label class="input-label">Width</label>
+              <input type="number" id="canvasWidth" class="num-input" min="1" max="512" value="32" />
+            </div>
+            <div class="row">
+              <label class="input-label">Height</label>
+              <input type="number" id="canvasHeight" class="num-input" min="1" max="512" value="32" />
+            </div>
+            <button id="btnResize" class="action-btn full">New Canvas</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Colors</span>
+          </div>
+          <div class="panel-body">
+            <div class="color-preview-row">
+              <div class="color-swatch" id="swatchForeground">
+                <input type="color" id="colorPicker" value="#000000" />
+              </div>
+              <div class="color-swatch" id="swatchBackground">
+                <input type="color" id="bgColorPicker" value="#ffffff" />
+              </div>
+              <button id="btnSwapColors" class="swatch-action" title="Swap Colors (X)">⇄</button>
+              <button id="btnResetColors" class="swatch-action" title="Reset to Black/White">↺</button>
+            </div>
+
+            <div class="palette-section">
+              <div class="palette-grid" id="paletteGrid">
+                <!-- Generated by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Layers</span>
+          </div>
+          <div class="panel-body">
+            <div class="layer-list" id="layerList">
+              <div class="layer-item active" data-layer="0">
+                <div class="layer-preview" id="layerPreview0"></div>
+                <span class="layer-name">Background</span>
+                <button class="layer-visibility" title="Toggle visibility">👁</button>
+              </div>
+            </div>
+            <div class="layer-controls">
+              <button id="btnAddLayer" class="icon-btn" title="Add Layer">+</button>
+              <button id="btnDelLayer" class="icon-btn" title="Delete Layer">−</button>
+              <button id="btnDupLayer" class="icon-btn" title="Duplicate Layer">⎘</button>
+              <button id="btnMoveLayerUp" class="icon-btn" title="Move Up">↑</button>
+              <button id="btnMoveLayerDown" class="icon-btn" title="Move Down">↓</button>
+              <button id="btnMergeDown" class="icon-btn" title="Merge Down">↓+</button>
+              <button id="btnClearLayer" class="icon-btn" title="Clear Layer">🗑</button>
+            </div>
+            <div class="blend-section">
+              <label class="input-label">Opacity</label>
+              <input type="range" id="layerOpacity" class="opacity-slider" min="0" max="100" value="100" />
+              <span id="layerOpacityValue" class="slider-value">100%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Onion Skin</span>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <label class="input-label">Prev</label>
+              <input type="range" id="onionPrevOpacity" class="opacity-slider" min="0" max="80" value="30" />
+              <span id="onionPrevValue" class="slider-value">30%</span>
+            </div>
+            <div class="row">
+              <label class="input-label">Next</label>
+              <input type="range" id="onionNextOpacity" class="opacity-slider" min="0" max="80" value="30" />
+              <span id="onionNextValue" class="slider-value">30%</span>
+            </div>
+            <div class="row onion-shift-rows">
+              <label class="input-label">Frames</label>
+              <div class="onion-shift-controls">
+                <input type="number" id="onionShiftX" class="num-input tiny" value="1" min="0" />
+                <input type="number" id="onionShiftY" class="num-input tiny" value="0" min="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal-overlay" id="exportModal" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Export Image</h2>
+        <button class="modal-close" id="btnCloseExport">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="export-preview">
+          <canvas id="exportCanvas"></canvas>
+          <span id="exportDims">32 × 32 px</span>
+        </div>
+        <div class="export-options">
+          <div class="row">
+            <label class="input-label">Format</label>
+            <select id="exportFormat" class="select-input">
+              <option value="png">PNG</option>
+              <option value="jpeg">JPEG</option>
+              <option value="webp">WebP</option>
+              <option value="bmp">BMP</option>
+            </select>
+          </div>
+          <div class="row" id="qualityRow" style="display:none;">
+            <label class="input-label">Quality</label>
+            <input type="range" id="exportQuality" class="opacity-slider" min="10" max="100" value="90" />
+            <span id="exportQualityValue" class="slider-value">90%</span>
+          </div>
+          <div class="row">
+            <label class="input-label">Scale</label>
+            <input type="number" id="exportScale" class="num-input" value="1" min="1" max="32" />
+            <span class="input-hint">× Scale</span>
+          </div>
+          <div class="row">
+            <label>
+              <input type="checkbox" id="exportTransparent" checked /> Preserve transparency
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              <input type="checkbox" id="exportFlat" /> Flatten all layers
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnCopyImage" class="action-btn">Copy to Clipboard</button>
+        <button id="btnDownloadImage" class="action-btn primary">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resize Modal -->
+  <div class="modal-overlay" id="resizeModal" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>New Canvas</h2>
+        <button class="modal-close" id="btnCloseResize">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="notice warning">
+          ⚠ This will clear the current canvas. Consider saving or exporting first.
+        </div>
+        <div class="row">
+          <label class="input-label">Width</label>
+          <input type="number" id="newCanvasWidth" class="num-input" min="1" max="512" value="32" />
+        </div>
+        <div class="row">
+          <label class="input-label">Height</label>
+          <input type="number" id="newCanvasHeight" class="num-input" min="1" max="512" value="32" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnCancelResize" class="action-btn">Cancel</button>
+        <button id="btnCreateCanvas" class="action-btn primary">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

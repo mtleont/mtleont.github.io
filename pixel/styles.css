@@ -1,0 +1,795 @@
+/* ========================================
+   PixelPainter — Professional Pixel Art Studio
+   Design: dark navy + indigo accent
+   ======================================== */
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Palette */
+  --bg-base: #12121e;
+  --bg-panel: #1c1c2e;
+  --bg-surface: #24243a;
+  --bg-elevated: #2c2c48;
+  --bg-hover: #34345a;
+  --border: #2e2e50;
+  --border-light: #3a3a60;
+  --text: #d6d6e0;
+  --text-secondary: #8888aa;
+  --text-muted: #5a5a80;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --accent-active: #4e52cd;
+  --accent-soft: rgba(99, 102, 241, 0.15);
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
+
+  /* Sizing */
+  --titlebar-h: 44px;
+  --toolbar-w: 52px;
+  --sidebar-w: 232px;
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 10px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg-base);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ---------- Scrollbars ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ---------- Button reset ---------- */
+button {
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input {
+  border: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+}
+
+/* ---------- App Container ---------- */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ---------- Title Bar ---------- */
+.title-bar {
+  height: var(--titlebar-h);
+  min-height: var(--titlebar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
+}
+
+.title-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-logo {
+  font-size: 18px;
+}
+
+.app-title {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  color: var(--text);
+}
+
+.title-bar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.canvas-info, .zoom-label {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.title-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.12s ease;
+}
+.tb-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+  border-color: var(--border);
+}
+.tb-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.tb-btn.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* ---------- Main Layout ---------- */
+.main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ---------- Shared Toolbar Styles ---------- */
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-panel);
+  z-index: 5;
+}
+
+.toolbar-left {
+  width: var(--toolbar-w);
+  min-width: var(--toolbar-w);
+  border-right: 1px solid var(--border);
+  align-items: center;
+  padding: 8px 0;
+  gap: 2px;
+}
+
+.toolbar-right {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  gap: 8px;
+}
+
+.separator {
+  width: 28px;
+  height: 1px;
+  background: var(--border);
+  margin: 4px auto;
+}
+
+.tool-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 0;
+  width: 100%;
+  align-items: center;
+}
+
+.tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  background: transparent;
+  transition: all 0.12s ease;
+}
+.tool-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.tool-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+/* ---------- Canvas Area ---------- */
+.canvas-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-base);
+  position: relative;
+}
+
+.canvas-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: crosshair;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-base);
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.canvas-viewport.panning {
+  cursor: grabbing;
+}
+.canvas-viewport.panning[data-tool="pencil"] {
+  cursor: grab;
+}
+
+#mainCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  box-shadow: 0 0 0 1px var(--border), 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.canvas-bg-dots {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: 
+    linear-gradient(45deg, var(--border) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--border) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--border) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--border) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  opacity: 0.25;
+  display: none;
+}
+
+.canvas-area.show-dots .canvas-bg-dots {
+  display: block;
+}
+
+.canvas-statusbar {
+  min-height: 28px;
+  max-height: 28px;
+  padding: 0 10px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+}
+
+/* ---------- Right Sidebar Panels ---------- */
+.panel {
+  background: var(--bg-panel);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.panel-header {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.panel-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.panel-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- Form Elements ---------- */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.input-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  min-width: 32px;
+}
+
+.input-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.input-select, .select-input {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  padding: 0 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 12px;
+  transition: border-color 0.12s;
+}
+.input-select:focus, .select-input:focus {
+  border-color: var(--accent);
+}
+
+.num-input {
+  width: 58px;
+  height: 30px;
+  padding: 0 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  transition: border-color 0.12s;
+}
+.num-input:focus {
+  border-color: var(--accent);
+}
+.num-input.tiny {
+  width: 42px;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
+  background: var(--bg-surface);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  top: -1px;
+  left: 2px;
+}
+
+/* ---------- Action Buttons ---------- */
+.action-btn {
+  height: 30px;
+  padding: 0 14px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.action-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-light);
+}
+.action-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.action-btn.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.action-btn.full {
+  width: 100%;
+}
+
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: all 0.12s;
+  flex: 1;
+  min-width: 28px;
+}
+.icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+  border-color: var(--border-light);
+}
+
+/* ---------- Color Section ---------- */
+.color-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.color-swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border-light);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, #333 25%, transparent 25%),
+    linear-gradient(-45deg, #333 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #333 75%),
+    linear-gradient(-45deg, transparent 75%, #333 75%);
+  background-size: 10px 10px;
+  background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+}
+
+.color-swatch input[type="color"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+#swatchForeground {
+  border-color: var(--accent);
+}
+
+.swatch-action {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swatch-action:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.palette-section {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+}
+
+.palette-swatch {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.1s;
+}
+.palette-swatch:hover {
+  transform: scale(1.15);
+  border-color: white;
+  z-index: 1;
+  position: relative;
+}
+
+/* ---------- Sliders ---------- */
+.opacity-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  outline: none;
+}
+.opacity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 0 2px var(--bg-panel);
+}
+.opacity-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg-panel);
+}
+
+.slider-value {
+  font-size: 11px;
+  color: var(--text-secondary);
+  min-width: 28px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+}
+
+/* ---------- Layers ---------- */
+.layer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 6px;
+}
+
+.layer-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.layer-item:hover {
+  border-color: var(--border-light);
+}
+.layer-item.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.layer-preview {
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background-image:
+    linear-gradient(45deg, #333 25%, transparent 25%),
+    linear-gradient(-45deg, #333 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #333 75%),
+    linear-gradient(-45deg, transparent 75%, #333 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  flex-shrink: 0;
+}
+
+.layer-name {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layer-visibility {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+.layer-visibility:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.layer-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.blend-section {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.onion-shift-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ---------- Modal ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  min-width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modal-close {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1;
+}
+.modal-close:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.modal-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.export-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  padding: 12px;
+  border: 1px solid var(--border);
+}
+#exportCanvas {
+  image-rendering: pixelated;
+  max-width: 100%;
+  border: 1px solid var(--border);
+}
+#exportDims {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+}
+
+.export-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notice {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+}
+.notice.warning {
+  color: var(--warning);
+}
+
+/* ---------- Tooltips ---------- */
+.tool-btn[title], .tb-btn[title], .icon-btn[title] {
+  position: relative;
+}
