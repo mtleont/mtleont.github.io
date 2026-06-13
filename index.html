@@ -7,6 +7,8 @@
 
     <style>
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
             text-align: center;
         }
 
@@ -14,20 +16,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
+            padding: 2rem;
         }
 
         .logo {
-            width: 10%;
-            min-width: 80px;
+            width: 120px;
             height: auto;
         }
 
-        .headerbtn {
-            background-color: rgb(0, 136, 255);
-
-            height: 50px;
-            width: fit-content;
+        .status {
+            font-size: 1.1rem;
         }
 
         header {
@@ -35,20 +34,47 @@
             gap: 1rem;
             flex-wrap: wrap;
             justify-content: center;
+            padding: 1rem;
+            border-radius: 10px;
+        }
 
-            background-color: rgb(108, 191, 255);
-            width: 100%;
+        .headerbtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-width: 140px;
+            height: 50px;
+
+            background-color: rgb(0, 136, 255);
+            color: white;
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            transition: transform 0.15s ease,
+                        background-color 0.15s ease;
+        }
+
+        .headerbtn:hover {
+            background-color: rgb(0, 115, 215);
+            transform: translateY(-2px);
+        }
+
+        .headerbtn:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <p>Under construction</p>
-
     <div class="content">
-        <img src="logo.png" alt="logo" class="logo">
+        <img src="logo.png" alt="MTLEONT DEVELOPMENT Logo" class="logo">
+
+        <h1>MTLEONT DEVELOPMENT</h1>
+        <p class="status">🚧 Under Construction</p>
 
         <header>
-            <a href="/" class="headerbtn">Main page</a>
+            <a href="/" class="headerbtn">Main Page</a>
             <a href="realos/" class="headerbtn">Download RealOS</a>
             <a href="about.html" class="headerbtn">About</a>
         </header>
