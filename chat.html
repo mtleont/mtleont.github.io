@@ -2,44 +2,62 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>YouTube Live Chat Viewer</title>
+  <title>OBS YouTube Chat Overlay</title>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
+    /* IMPORTANT: OBS transparency */
+    html, body {
       margin: 0;
+      padding: 0;
+      background: transparent;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Chat container */
+    #chat {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      max-height: 100%;
       display: flex;
       flex-direction: column;
-      height: 100vh;
-    }
-
-    #chat {
-      flex: 1;
-      overflow-y: auto;
+      justify-content: flex-end;
       padding: 10px;
+      box-sizing: border-box;
     }
 
+    /* Message style */
     .msg {
-      padding: 6px;
-      border-bottom: 1px solid #222;
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+
+      background: rgba(0, 0, 0, 0.55);
+      color: white;
+
+      font-size: 16px;
+      line-height: 1.3;
+
+      /* smooth appearance */
+      animation: fadeIn 0.25s ease-in-out;
     }
 
     .user {
       color: #4fc3f7;
       font-weight: bold;
+      margin-right: 6px;
     }
 
-    #status {
-      padding: 8px;
-      background: #222;
-      font-size: 12px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
+
 <body>
 
-<div id="status">Initializing...</div>
 <div id="chat"></div>
 
 <script>
@@ -48,18 +66,13 @@ const streamInput = params.get("stream");
 const API_KEY = params.get("key");
 
 const chatBox = document.getElementById("chat");
-const statusBox = document.getElementById("status");
 
 if (!streamInput || !API_KEY) {
-  statusBox.innerText = "Missing ?stream= and/or ?key=";
-  throw new Error("Missing params");
+  throw new Error("Missing ?stream= and/or ?key=");
 }
 
-// Extract video ID from URL or raw ID
 function extractVideoId(input) {
   if (!input) return null;
-
-  // already a video ID
   if (!input.includes("http")) return input;
 
   try {
@@ -76,16 +89,16 @@ function extractVideoId(input) {
 const videoId = extractVideoId(streamInput);
 
 if (!videoId) {
-  statusBox.innerText = "Invalid stream/video URL";
-  throw new Error("Bad stream input");
+  throw new Error("Invalid video ID");
 }
 
 let liveChatId = null;
 let nextPageToken = null;
 
-// Step 1: Get liveChatId
 async function fetchLiveChatId() {
-  const url = `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${API_KEY}`;
+  const url =
+    `https://www.googleapis.com/youtube/v3/videos` +
+    `?part=liveStreamingDetails&id=${videoId}&key=${API_KEY}`;
 
   const res = await fetch(url);
   const data = await res.json();
@@ -93,13 +106,26 @@ async function fetchLiveChatId() {
   const chatId = data.items?.[0]?.liveStreamingDetails?.activeLiveChatId;
 
   if (!chatId) {
-    throw new Error("No active live chat found (is stream live?)");
+    throw new Error("No active live chat (stream not live?)");
   }
 
   return chatId;
 }
 
-// Step 2: Poll chat messages
+function addMessage(name, text) {
+  const div = document.createElement("div");
+  div.className = "msg";
+
+  div.innerHTML = `<span class="user">${name}</span>${text}`;
+
+  chatBox.appendChild(div);
+
+  // limit messages (prevents lag in OBS over time)
+  if (chatBox.children.length > 30) {
+    chatBox.removeChild(chatBox.firstChild);
+  }
+}
+
 async function pollChat() {
   const url =
     `https://www.googleapis.com/youtube/v3/liveChat/messages` +
@@ -113,39 +139,21 @@ async function pollChat() {
 
   if (data.items) {
     for (const msg of data.items) {
-      const div = document.createElement("div");
-      div.className = "msg";
-
       const name = msg.authorDetails.displayName;
       const text = msg.snippet.displayMessage;
 
-      div.innerHTML = `<span class="user">${name}:</span> ${text}`;
-      chatBox.appendChild(div);
+      addMessage(name, text);
     }
-
-    chatBox.scrollTop = chatBox.scrollHeight;
   }
 
   nextPageToken = data.nextPageToken;
-  const wait = data.pollingIntervalMillis || 2000;
 
-  setTimeout(pollChat, wait);
+  setTimeout(pollChat, data.pollingIntervalMillis || 2000);
 }
 
-// Boot
 (async function init() {
-  try {
-    statusBox.innerText = "Fetching live chat ID...";
-
-    liveChatId = await fetchLiveChatId();
-
-    statusBox.innerText = "Connected to live chat ✔";
-
-    pollChat();
-  } catch (err) {
-    console.error(err);
-    statusBox.innerText = "Error: " + err.message;
-  }
+  liveChatId = await fetchLiveChatId();
+  pollChat();
 })();
 </script>
 
