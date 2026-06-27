@@ -127,28 +127,38 @@ function addMessage(name, text) {
 }
 
 async function pollChat() {
-  const url =
-    `https://www.googleapis.com/youtube/v3/liveChat/messages` +
-    `?liveChatId=${liveChatId}` +
-    `&part=snippet,authorDetails` +
-    `&pageToken=${nextPageToken || ""}` +
-    `&key=${API_KEY}`;
+  try {
+    const url =
+      `https://www.googleapis.com/youtube/v3/liveChat/messages` +
+      `?liveChatId=${liveChatId}` +
+      `&part=snippet,authorDetails` +
+      `&pageToken=${nextPageToken || ""}` +
+      `&key=${API_KEY}`;
 
-  const res = await fetch(url);
-  const data = await res.json();
+    const res = await fetch(url);
+    const data = await res.json();
 
-  if (data.items) {
-    for (const msg of data.items) {
-      const name = msg.authorDetails.displayName;
-      const text = msg.snippet.displayMessage;
-
-      addMessage(name, text);
+    if (data.items) {
+      for (const msg of data.items) {
+        addMessage(
+          msg.authorDetails.displayName,
+          msg.snippet.displayMessage
+        );
+      }
     }
+
+    nextPageToken = data.nextPageToken;
+
+    setTimeout(
+      pollChat,
+      data.pollingIntervalMillis || 2000
+    );
+  } catch (err) {
+    console.error(err);
+
+    // retry after error
+    setTimeout(pollChat, 5000);
   }
-
-  nextPageToken = data.nextPageToken;
-
-  setTimeout(pollChat, data.pollingIntervalMillis || 2000);
 }
 
 (async function init() {
