@@ -5,6 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyScript Pygame-CE Game</title>
     
+    <!-- Using the latest, stable PyScript core distribution links -->
+    <link rel="stylesheet" href="https://pyscript.net">
+    <script type="module" src="https://pyscript.net"></script>
+    
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 { margin-bottom: 5px; }
+        p { margin-bottom: 20px; color: #b3b3b3; }
+        /* Style the HTML Canvas where Pygame renders */
+        #game-canvas {
+            border: 4px solid #4f46e5;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>PyScript Coin Clicker</h1>
+    <p>Click the gold coin before the timer runs out!</p>
+    
+    <!-- Pygame-CE REQUIRES an actual canvas element to output graphics -->
+    <canvas id="game-canvas" width="600" height="400"></canvas>
+
+    <!-- target points to the canvas ID attribute above -->
+    <script type="py-game" target="game-canvas">
+import asyncio
+import pygame_ce as pygame
+import random
+
+# Variables must be global so the scheduled async task can access them smoothly
+score = 0
+coin_radius = 30
+coin_x = 300
+coin_y = 200
+timer_max = 2000 
+timer_current = timer_max
+game_over = False
+
+async def main():
+    global score, coin_x, coin_y, timer_max, timer_current, game_over
+    
+    pygame.init()
+    screen = pygame.display.set_mode((600, 400))
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont(None, 36)
+    
+    # Position coin randomly to start
+    coin_x = random.randint(coin_radius, 600 - coin_radius)
+    coin_y = random.randint(coin_radius, 400 - coin_radius)
+
+    running = True
+    while running:
+        dt = clock.tick(60) 
+        
+        # 1. Handle Game Inputs
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                
+            elif event.type == pygame.MOUSEBUTTONDOWN and not game_over:
+                mouse_pos = pygame.mouse.get_pos()
+                # Check distance from mouse click to coin center
+                distance = ((mouse_pos[0] - coin_x)**2 + (mouse_pos[1] - coin_y)**2)**0.5
+                if distance <= coin_radius:
+                    score += 1
+                    coin_x = random.randint(coin_radius, 600 - coin_radius)
+                    coin_y = random.randint(coin_radius, 400 - coin_radius)
+                    timer_max = max(600, 2000 - (score * 75)) # Scale difficulty
+                    timer_current = timer_max
+                    
+            elif event.type == pygame.KEYDOWN and game_over:
+                if event.key == pygame.K_SPACE:
+                    score = 0
+                    timer_max = 2000
+                    timer_current = timer_max
+                    game_over = False
+
+        # 2. Update Timer State
+        if not game_over:
+            timer_current -= dt
+            if timer_current <= 0:
+                game_over = True
+
+        # 3. Render Graphics
+        screen.fill((30, 30, 40)) 
+        
+        if not game_over:
+            # Draw shrinking time bar
+            time_percentage = max(0, timer_current / timer_max)
+            bar_color = (int(255 * (1 - time_percentage)), int(255 * time_percentage), 0)
+            pygame.draw.rect(screen, bar_color, (0, 0, int(600 * time_percentage), 10))
+            
+            # Draw Gold Coin
+            pygame.draw.circle(screen, (255, 215, 0), (coin_x, coin_y), coin_radius) 
+            pygame.draw.circle(screen, (218, 165, 32), (coin_x, coin_y), coin_radius, 3) 
+            
+            # Render text
+            score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+            screen.blit(score_text, (20, 25))
+        else:
+            # Game Over screen text
+            over_text = font.render("GAME OVER", True, (255, 50, 50))
+            final_score_text = font.render(f"Final Score: {score}", True, (255, 255, 255))
+            restart_text = font.render("Press SPACE to Play Again", True, (150, 150, 150))
+            
+            screen.blit(over_text, (230, 140))
+            screen.blit(final_score_text, (230, 190))
+            screen.blit(restart_text, (160, 250))
+
+        pygame.display.flip()
+        
+        # Yield to WebAssembly event system 
+        await asyncio.sleep(0)
+
+    pygame.quit()
+
+# CRITICAL FIX: Schedule the loop rather than calling asyncio.run()
+asyncio.ensure_future(main())
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyScript Pygame-CE Game</title>
+    
     <!-- CSS for PyScript layouts -->
     <link rel="stylesheet" href="https://pyscript.net">
     <!-- Main PyScript JavaScript engine -->
