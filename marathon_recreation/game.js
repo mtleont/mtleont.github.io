@@ -42,6 +42,23 @@ let gr = 0 //g:game r:running  0:no/1:yes/2:paused/3:win
 
 let score = 0;
 
+window.addEventListener('keydown', (event) => {
+    if (event.key === ' ') event.preventDefault();
+
+    const key = event.key.toLowerCase();
+
+    // Ignore key-repeat from holding a key
+    if (event.repeat) return;
+
+    if (gr === 1) {
+        if (!(key in gameKeys)) {
+            score--;
+        }
+    }
+
+    keys[key] = true;
+});
+
 // let randomLetter_cooldown = 500;
 
 function gameLoop() {
