@@ -774,7 +774,119 @@ int* pointer = &amp;number;</code></pre>
 
         <p>Pointers are very useful in C++, especially for memory management, advanced data structures, game engines and working directly with memory.</p>
     </div>
+	<div>
+    <h2>#include AND LIBRARIES</h2>
+    <p>You may have seen things like <a><code>#include &lt;iostream&gt;</code></a> at the top of C++ programs.</p>
+    <p><a><code>#include</code></a> is used to include a header file into your program.</p>
+    <p>A header file contains things that other code has already made, such as functions, classes, types, and other useful stuff.</p><h3>What is a library?</h3>
+<p>A library is basically a collection of code that you can use in your own programs instead of writing everything yourself.</p>
+<p>For example, you don't need to create your own system for printing text to the console. C++ already has code for that.</p>
 
+<p>Example:</p>
+<pre><code>#include &lt;iostream&gt;
+
+int main() {
+std::cout << "Hello World!";
+return 0;
+}</code></pre>
+
+<p><a><code>&lt;iostream&gt;</code></a> gives you access to things like <a><code>std::cout</code></a> and <a><code>std::cin</code></a>.</p>
+
+<hr>
+
+<h3>What is a header file?</h3>
+<p>A header file is usually a file containing declarations and other information that can be included in other C++ files.</p>
+<p>Header files usually have the <a><code>.h</code></a> or <a><code>.hpp</code></a> extension, although C++ also has standard library headers such as <a><code>&lt;iostream&gt;</code></a> that don't use a file extension when included.</p>
+
+<p>Example of your own header:</p>
+
+<pre><code>// mathstuff.h
+
+int add(int a, int b) {
+return a + b;
+}</code></pre>
+
+<p>Then you can include it in another C++ file:</p>
+
+<pre><code>#include "mathstuff.h"
+
+int main() {
+int result = add(5, 5);
+return 0;
+}</code></pre>
+
+<p>When you use <a><code>#include "mathstuff.h"</code></a>, the contents of that header are made available to the file.</p>
+
+<hr>
+
+<h3>&lt;&gt; vs ""</h3>
+<p>There are two common ways to use <a><code>#include</code></a>:</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+#include "mathstuff.h"</code></pre>
+
+<p><a><code>&lt;&gt;</code></a> is normally used for system/installed headers and libraries.</p>
+<p><a><code>""</code></a> is normally used for your own headers or files in your project.</p>
+
+<hr>
+
+<h3>Some common C++ headers</h3>
+
+<p><a><code>&lt;iostream&gt;</code></a> ---> console input and output, such as <a><code>std::cout</code></a> and <a><code>std::cin</code></a></p>
+
+<p><a><code>&lt;string&gt;</code></a> ---> <a><code>std::string</code></a></p>
+
+<p><a><code>&lt;vector&gt;</code></a> ---> <a><code>std::vector</code></a></p>
+
+<p><a><code>&lt;cmath&gt;</code></a> ---> mathematical functions such as <a><code>std::sqrt()</code></a></p>
+
+<p><a><code>&lt;fstream&gt;</code></a> ---> reading and writing files</p>
+
+<p><a><code>&lt;cstdlib&gt;</code></a> ---> various general-purpose functions</p>
+
+<hr>
+
+<h3>Standard library vs external libraries</h3>
+
+<p>C++ comes with a standard library. This means you can use many useful things without downloading another library.</p>
+
+<p>But there are also external libraries made by other developers.</p>
+
+<p>For example, <a><code>raylib</code></a> is an external library that can be used to make games.</p>
+
+<pre><code>#include &lt;raylib.h&gt;
+
+int main() {
+InitWindow(800, 600, "My Game");
+
+while (!WindowShouldClose()) {
+    BeginDrawing();
+
+    ClearBackground(RAYWHITE);
+
+    EndDrawing();
+}
+
+CloseWindow();
+return 0;
+
+}</code></pre>
+
+<p>Here <a><code>&lt;raylib.h&gt;</code></a> is a header provided by raylib.</p>
+
+<p>External libraries can give you a LOT of functionality without you having to create everything yourself.</p>
+
+<p>There are libraries for graphics, games, networking, audio, databases, GUI, physics, file formats and many other things.</p>
+
+<hr>
+
+<h3>IMPORTANT</h3>
+<p><a><code>#include</code></a> is not a normal C++ function. It is a preprocessor directive.</p>
+<p>Preprocessor directives are processed before the actual C++ compilation happens.</p>
+<p>There are other preprocessor directives too, such as <a><code>#define</code></a> and <a><code>#ifdef</code></a>.</p>
+
+</div>
     <div>
         <h2>REFERENCES</h2>
 
