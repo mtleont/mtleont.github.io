@@ -59,7 +59,212 @@ This is a
 multi-line comment
 */</code></pre>
     </div>
+    <div>
+        <h2>C++ SYNTAX</h2>
 
+        <p>Syntax is the way you have to write code so the C++ compiler can understand it. Different parts of C++ have different syntax rules.</p>
+
+        <hr>
+
+        <h3>Basic Statement Syntax</h3>
+
+        <p>A basic C++ statement usually looks like this:</p>
+
+        <pre><code>(something) (value);</code></pre>
+
+        <p>For example:</p>
+
+        <pre><code>int age = 15;
+    std::cout &lt;&lt; age;</code></pre>
+
+        <p>The <a><code>;</code></a> at the end tells C++ that the statement is finished.</p>
+
+        <hr>
+
+        <h3>Variable Syntax</h3>
+
+        <p>Variables generally follow this syntax:</p>
+
+        <pre><code>(type) (name) = (value);</code></pre>
+
+        <p>Example:</p>
+
+        <pre><code>int score = 100;
+    float speed = 5.5;
+    bool playing = true;</code></pre>
+
+        <p>The type tells C++ what kind of data the variable stores.</p>
+
+        <hr>
+
+        <h3>Function Syntax</h3>
+
+        <p>Functions generally follow this structure:</p>
+
+        <pre><code>(return type) (function name)((parameters))
+    {
+        (code)
+    }</code></pre>
+
+        <p>Example:</p>
+
+        <pre><code>int add(int a, int b)
+    {
+        return a + b;
+    }</code></pre>
+
+        <p><a><code>int</code></a> before the function name means that the function returns an integer.</p>
+
+        <p><a><code>add</code></a> is the name of the function.</p>
+
+        <p><a><code>int a, int b</code></a> are the parameters.</p>
+
+        <p>The code between <a><code>{ }</code></a> is what the function executes.</p>
+
+        <hr>
+
+        <h3>Condition Syntax</h3>
+
+        <p>An <a><code>if</code></a> statement follows this syntax:</p>
+
+        <pre><code>if ((condition))
+    {
+        (code)
+    }</code></pre>
+
+        <p>Example:</p>
+
+        <pre><code>if (score &gt; 50)
+    {
+        std::cout &lt;&lt; "You passed!";
+    }</code></pre>
+
+        <p>The code inside the curly brackets only executes if the condition is true.</p>
+
+        <hr>
+
+        <h3>else Syntax</h3>
+
+        <pre><code>if ((condition))
+    {
+        (code)
+    }
+    else
+    {
+        (other code)
+    }</code></pre>
+
+        <p><a><code>else</code></a> runs when the <a><code>if</code></a> condition is false.</p>
+
+        <hr>
+
+        <h3>Loop Syntax</h3>
+
+        <p>A <a><code>while</code></a> loop follows this syntax:</p>
+
+        <pre><code>while ((condition))
+    {
+        (code)
+    }</code></pre>
+
+        <p>A <a><code>for</code></a> loop has a different syntax:</p>
+
+        <pre><code>for ((start); (condition); (change))
+    {
+        (code)
+    }</code></pre>
+
+        <p>Example:</p>
+
+        <pre><code>for (int i = 0; i &lt; 10; i++)
+    {
+        std::cout &lt;&lt; i;
+    }</code></pre>
+
+        <hr>
+
+        <h3>Parentheses <code>( )</code></h3>
+
+        <p>Parentheses are used in many different parts of C++.</p>
+
+        <p>They are used for function parameters:</p>
+
+        <pre><code>add(5, 10);</code></pre>
+
+        <p>They are used for conditions:</p>
+
+        <pre><code>if (score &gt; 50)</code></pre>
+
+        <p>They are also used to control mathematical operations:</p>
+
+        <pre><code>int result = (5 + 5) * 2;</code></pre>
+
+        <hr>
+
+        <h3>Curly Brackets <code>{ }</code></h3>
+
+        <p>Curly brackets create a block of code.</p>
+
+        <pre><code>if (playing)
+    {
+        std::cout &lt;&lt; "The game is running";
+    }</code></pre>
+
+        <p>Everything between <a><code>{</code></a> and <a><code>}</code></a> belongs to that block.</p>
+
+        <hr>
+
+        <h3>Square Brackets <code>[ ]</code></h3>
+
+        <p>Square brackets are commonly used when accessing values inside arrays and other containers.</p>
+
+        <pre><code>int numbers[3] = {10, 20, 30};
+
+    std::cout &lt;&lt; numbers[0];</code></pre>
+
+        <p><a><code>numbers[0]</code></a> accesses the first value.</p>
+
+        <p>Remember that C++ indexes usually start at <a><code>0</code></a>.</p>
+
+        <hr>
+
+        <h3>Quotation Marks</h3>
+
+        <p>Double quotation marks <a><code>" "</code></a> are used for strings:</p>
+
+        <pre><code>std::cout &lt;&lt; "Hello World!";</code></pre>
+
+        <p>Single quotation marks <a><code>' '</code></a> are used for individual characters:</p>
+
+        <pre><code>char letter = 'A';</code></pre>
+
+        <hr>
+
+        <h3>Putting Everything Together</h3>
+
+        <p>A simple C++ program can contain many different pieces of syntax together:</p>
+
+        <pre><code>#include &lt;iostream&gt;
+
+    int add(int a, int b)
+    {
+        return a + b;
+    }
+
+    int main()
+    {
+        int number = 10;
+
+        if (number &gt; 5)
+        {
+            std::cout &lt;&lt; add(number, 20);
+        }
+
+        return 0;
+    }</code></pre>
+
+        <p>As you learn C++, you will start recognizing these pieces of syntax automatically. Most C++ code is built by combining variables, functions, conditions, loops, operators and blocks together.</p>
+    </div>
     <div>
         <h2>VARIABLES</h2>
         <hr>
