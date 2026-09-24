@@ -1,0 +1,696 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Basic Generals - MTLEONT</title>
+    <link rel="icon" type="image/svg+xml" href="cpplogo.svg">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        code {
+            background-color: rgb(250, 250, 250);
+            color: black;
+        }
+        div {
+            background-color: rgb(43, 43, 43);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>C++ Basic Generals</h1>
+    <hr>
+    <p>Links: <a href="cpp-basic-generals.html">C++ Basic Generals (this)</a>, <a href="cpp-cheatsheet.html">C++ Cheatsheet</a></p>
+    <hr>
+
+    <div>
+        <h2>PROGRAM BASICS</h2>
+        <hr>
+
+        <h3>What is a C++ program?</h3>
+        <p>A C++ program is a collection of instructions written in C++ that are compiled into a program that your computer can execute.</p>
+
+        <p>Most basic C++ programs start with a <a><code>main()</code></a> function:</p>
+
+        <pre><code>int main()
+{
+    return 0;
+}</code></pre>
+
+        <p><a><code>main()</code></a> is where the program starts executing.</p>
+
+        <p><a><code>return 0;</code></a> tells the operating system that the program finished successfully.</p>
+
+        <hr>
+
+        <h3>Comments</h3>
+
+        <p>Comments are text inside your code that the compiler ignores. They are mainly used to explain what your code does.</p>
+
+        <p>Single-line comment:</p>
+
+        <code>// This is a comment</code>
+
+        <p>Multi-line comment:</p>
+
+        <pre><code>/*
+This is a
+multi-line comment
+*/</code></pre>
+    </div>
+
+    <div>
+        <h2>VARIABLES</h2>
+        <hr>
+
+        <h3>Variable Types</h3>
+
+        <p><a><code>int</code></a>: (integer number ONLY)</p>
+        <p><a><code>..., -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, ...</code></a></p>
+
+        <hr>
+
+        <p><a><code>float</code></a>: (decimal number)</p>
+        <p><a><code>..., -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, ...</code></a></p>
+
+        <hr>
+
+        <p><a><code>double</code></a>: (decimal number with more precision than float)</p>
+        <p><a><code>3.1415926535</code></a></p>
+
+        <hr>
+
+        <p><a><code>char</code></a>: (one character ONLY)</p>
+        <p><a><code>'A'</code></a>, <a><code>'b'</code></a>, <a><code>'7'</code></a>, <a><code>'?'</code></a></p>
+        <p>Characters use single quotes.</p>
+
+        <hr>
+
+        <p><a><code>string</code></a>: string is a container of characters.</p>
+        <p>example: <a><code>"Hello World!"</code></a>,<br><a><code>"this is a string"</code></a></p>
+        <p>Strings use double quotes.</p>
+
+        <hr>
+
+        <p><a><code>bool</code></a>: (boolean)</p>
+        <p><a><code>true (1)</code></a>, <a><code>false (0)</code></a></p>
+        <p>(it is mainly used for conditions and many other things)</p>
+
+        <hr>
+
+        <h3>How to create variables and how to use them?</h3>
+
+        <p>Create/set/initialize (however you want to call it):</p>
+        <code>(variable type here) myVar_1 = (value);</code><br>
+        <small>That's the syntax.</small><br>
+
+        <p>(value) ---> can be anything (depends on the variable type)</p>
+
+        <p>example:</p>
+
+        <p>if variable type is int: (value) ---> must be integer number.</p>
+
+        <code>int myVar = 50;</code><br>
+
+        <small>now myVar variable is int and its value is 50.</small>
+
+        <p>same syntax for float, double, string, bool and any other variable type.</p>
+
+        <p>------------</p>
+
+        <h4>How to use them:</h4>
+
+        <p>- you just type the variable name anywhere you want to use it.</p>
+
+        <p>- use them in conditions (if / else if / while / for)</p>
+
+        <p>example: <a><code>if (myVar == 50) { (write code that executes when the condition (myVar == 50) is true) }</code></a></p>
+
+        <p>- when printing to console:</p>
+
+        <p><a><code>std::cout &lt;&lt; "My variable value is: " &lt;&lt; myVar;</code></a></p>
+
+        <p>- a lot more uses.</p>
+
+        <p>------------</p>
+
+        <h3>Changing variables</h3>
+
+        <p>After creating a variable, you can usually change its value by using its name:</p>
+
+        <pre><code>int score = 10;
+
+score = 50;</code></pre>
+
+        <p>Now <a><code>score</code></a> contains <a><code>50</code></a>.</p>
+
+        <p>You can also change a value using operators:</p>
+
+        <pre><code>score += 10;
+score -= 5;
+score *= 2;
+score /= 2;</code></pre>
+
+        <p>------------</p>
+
+        <h3>IMPORTANT</h3>
+
+        <p><a><code>const</code></a> is also a thing, you put it directly before the variable type. What does it do? It makes the variable value UNCHANGEABLE when used in the code.</p>
+
+        <pre><code>const int maxHealth = 100;</code></pre>
+
+        <p>You cannot later do:</p>
+
+        <code>maxHealth = 200;</code>
+
+        <p>because the variable is <a><code>const</code></a>.</p>
+    </div>
+
+    <div>
+        <h2>PRINTING AND INPUT</h2>
+
+        <hr>
+
+        <h3>Printing</h3>
+
+        <p>C++ can print text and variables to the console using <a><code>std::cout</code></a>.</p>
+
+        <pre><code>std::cout &lt;&lt; "Hello World!";</code></pre>
+
+        <p>You can also print variables:</p>
+
+        <pre><code>int age = 15;
+
+std::cout &lt;&lt; age;</code></pre>
+
+        <p>You can combine multiple things:</p>
+
+        <pre><code>std::cout &lt;&lt; "Age: " &lt;&lt; age;</code></pre>
+
+        <hr>
+
+        <h3>Input</h3>
+
+        <p>You can get input from the user using <a><code>std::cin</code></a>.</p>
+
+        <pre><code>int age;
+
+std::cin &gt;&gt; age;</code></pre>
+
+        <p>Now whatever number the user enters will be stored inside <a><code>age</code></a>.</p>
+
+        <p>For strings:</p>
+
+        <pre><code>string name;
+
+std::cin &gt;&gt; name;</code></pre>
+    </div>
+
+    <div>
+        <h2>OPERATORS</h2>
+
+        <p>C++ has many operators that allow you to perform mathematical operations and comparisons.</p>
+
+        <h3>Math Operators</h3>
+
+        <p><a><code>+</code></a> ---> addition</p>
+        <p><a><code>-</code></a> ---> subtraction</p>
+        <p><a><code>*</code></a> ---> multiplication</p>
+        <p><a><code>/</code></a> ---> division</p>
+        <p><a><code>%</code></a> ---> remainder</p>
+
+        <pre><code>int result = 10 + 5;
+int result2 = 10 - 5;
+int result3 = 10 * 5;
+int result4 = 10 / 5;
+int result5 = 10 % 3;</code></pre>
+
+        <hr>
+
+        <h3>Comparison Operators</h3>
+
+        <p><a><code>==</code></a> ---> equal to</p>
+        <p><a><code>!=</code></a> ---> not equal to</p>
+        <p><a><code>&gt;</code></a> ---> greater than</p>
+        <p><a><code>&lt;</code></a> ---> less than</p>
+        <p><a><code>&gt;=</code></a> ---> greater than or equal to</p>
+        <p><a><code>&lt;=</code></a> ---> less than or equal to</p>
+
+        <p>These are mainly used in conditions.</p>
+
+        <pre><code>if (score &gt;= 100)
+{
+    // code
+}</code></pre>
+
+        <hr>
+
+        <h3>Logical Operators</h3>
+
+        <p><a><code>&amp;&amp;</code></a> ---> AND</p>
+        <p><a><code>||</code></a> ---> OR</p>
+        <p><a><code>!</code></a> ---> NOT</p>
+
+        <pre><code>if (age &gt;= 13 &amp;&amp; age &lt;= 18)
+{
+    // code
+}</code></pre>
+    </div>
+
+    <div>
+        <h2>CONDITIONS</h2>
+
+        <p>Conditions allow your program to make decisions.</p>
+
+        <h3>if</h3>
+
+        <p>You can write code that executes when a condition is true.</p>
+
+        <pre><code>if (myVar == 50)
+{
+    std::cout &lt;&lt; "myVar is 50";
+}</code></pre>
+
+        <h3>else</h3>
+
+        <p><a><code>else</code></a> executes when the previous condition is false.</p>
+
+        <pre><code>if (myVar == 50)
+{
+    std::cout &lt;&lt; "It is 50";
+}
+else
+{
+    std::cout &lt;&lt; "It is not 50";
+}</code></pre>
+
+        <h3>else if</h3>
+
+        <p>You can check multiple conditions using <a><code>else if</code></a>.</p>
+
+        <pre><code>if (score &gt;= 100)
+{
+    std::cout &lt;&lt; "Amazing";
+}
+else if (score &gt;= 50)
+{
+    std::cout &lt;&lt; "Good";
+}
+else
+{
+    std::cout &lt;&lt; "Keep trying";
+}</code></pre>
+    </div>
+
+    <div>
+        <h2>LOOPS</h2>
+
+        <p>Loops allow you to execute code multiple times without having to write the same code over and over again.</p>
+
+        <h3>while</h3>
+
+        <p>A <a><code>while</code></a> loop keeps executing while its condition is true.</p>
+
+        <pre><code>int number = 0;
+
+while (number &lt; 10)
+{
+    std::cout &lt;&lt; number;
+    number++;
+}</code></pre>
+
+        <h3>for</h3>
+
+        <p>A <a><code>for</code></a> loop is commonly used when you know how many times you want something to repeat.</p>
+
+        <pre><code>for (int i = 0; i &lt; 10; i++)
+{
+    std::cout &lt;&lt; i;
+}</code></pre>
+
+        <h3>break</h3>
+
+        <p><a><code>break</code></a> immediately stops a loop.</p>
+
+        <pre><code>while (true)
+{
+    if (number == 10)
+    {
+        break;
+    }
+
+    number++;
+}</code></pre>
+
+        <h3>continue</h3>
+
+        <p><a><code>continue</code></a> skips the current loop iteration and continues with the next one.</p>
+    </div>
+
+    <div>
+        <h2>FUNCTIONS</h2>
+
+        <p>Functions are used to reuse code without rewriting it. It is very useful as it saves A LOT of time and makes your code look cleaner. For example when we want to add two integers:</p>
+
+        <pre><code>int add(int a, int b)
+{
+    return a + b;
+}</code></pre>
+
+        <p>and use it anywhere in the code:</p>
+
+        <p><a><code>add(5, 5);</code></a> OR <a><code>add(myVar1, myVar2);</code> (only if variables you use are integers)</a></p>
+
+        <p>----------------</p>
+
+        <p>syntax:</p>
+
+        <pre><code>(variable type) myFunctionName(params)
+{
+    (function code here, params can be used in here)
+}</code></pre>
+
+        <p>params: are some function variables that when the function is called somewhere in the code you can provide values/variables into them so the function can do stuff with them.</p>
+
+        <p>return: return returns the specified thing in variable form (so you can like do <a><code>int result = add(1, 1);</code></a>)</p>
+
+        <p>You can also have functions that don't return a value. For that you use <a><code>void</code></a>:</p>
+
+        <pre><code>void sayHello()
+{
+    std::cout &lt;&lt; "Hello!";
+}</code></pre>
+
+        <p>ALSO functions are needed in EVERY program you make. Even in game development you need functions, for updating gameplay logic, player, enemies and a lot more things.</p>
+    </div>
+
+    <div>
+        <h2>MATH</h2>
+
+        <p>You can perform mathematical operations just like in real life, using numbers, variables, and combinations of both.</p>
+
+        <p>Functions can use return to send a value back to the code that called the function. The returned value can be stored in a variable or used directly in an expression.</p>
+
+        <p>Example:</p>
+
+        <code>(1+2) / (5+3) * (3+3-1)</code>
+
+        <p>And more complex stuff. With math, you can create games too as math are needed.</p>
+
+        <p>Parentheses can be used to control which operation happens first:</p>
+
+        <pre><code>int result = (5 + 5) * 2;</code></pre>
+
+        <p>Without parentheses, C++ follows the normal mathematical order of operations.</p>
+    </div>
+
+    <div>
+        <h2>SEMICOLON</h2>
+
+        <p>You may be wondering why we put <code>;</code> at the end of many lines of C++ code.</p>
+
+        <p>A semicolon marks the end of a statement. It tells the compiler that the instruction is finished and that the next statement can begin.</p>
+
+        <p>For example:</p>
+
+        <pre><code>int age = 15;
+int score = 100;
+
+std::cout &lt;&lt; age;
+std::cout &lt;&lt; score;</code></pre>
+
+        <p>Each statement is separated by a semicolon. Without the semicolon, the compiler may not know where one statement ends and the next one begins.</p>
+
+        <p>Not every line needs a semicolon. For example, conditions, loops, functions and classes use curly brackets instead:</p>
+
+        <pre><code>if (age &gt; 10)
+{
+    std::cout &lt;&lt; "Older than 10";
+}</code></pre>
+    </div>
+
+    <div>
+        <h2>ARRAYS</h2>
+
+        <p>An array stores multiple values of the same variable type in one place.</p>
+
+        <p>Example:</p>
+
+        <pre><code>int numbers[5] = {10, 20, 30, 40, 50};</code></pre>
+
+        <p>You can access the values using their position, called an index.</p>
+
+        <pre><code>std::cout &lt;&lt; numbers[0];
+std::cout &lt;&lt; numbers[1];
+std::cout &lt;&lt; numbers[2];</code></pre>
+
+        <p>IMPORTANT: array indexes start at <a><code>0</code></a>, not <a><code>1</code></a>.</p>
+
+        <p>So in the example above:</p>
+
+        <p><a><code>numbers[0]</code></a> = 10</p>
+        <p><a><code>numbers[1]</code></a> = 20</p>
+        <p><a><code>numbers[4]</code></a> = 50</p>
+    </div>
+
+    <div>
+        <h2>VECTORS</h2>
+
+        <p>A <a><code>std::vector</code></a> is similar to an array, but it can dynamically change its size.</p>
+
+        <pre><code>#include &lt;vector&gt;
+
+std::vector&lt;int&gt; numbers;
+
+numbers.push_back(10);
+numbers.push_back(20);
+numbers.push_back(30);</code></pre>
+
+        <p>You can get the amount of values inside a vector using <a><code>.size()</code></a>:</p>
+
+        <pre><code>std::cout &lt;&lt; numbers.size();</code></pre>
+
+        <p>You can remove the last value using:</p>
+
+        <pre><code>numbers.pop_back();</code></pre>
+    </div>
+
+    <div>
+        <h2>SWITCH</h2>
+
+        <p><a><code>switch</code></a> can be used when you want to check one value against multiple possible values.</p>
+
+        <pre><code>int option = 2;
+
+switch (option)
+{
+    case 1:
+        std::cout &lt;&lt; "Option 1";
+        break;
+
+    case 2:
+        std::cout &lt;&lt; "Option 2";
+        break;
+
+    default:
+        std::cout &lt;&lt; "Unknown option";
+        break;
+}</code></pre>
+
+        <p><a><code>break</code></a> stops the switch from continuing into the next case.</p>
+    </div>
+
+    <div>
+        <h2>STRUCTS</h2>
+
+        <p>A <a><code>struct</code></a> allows you to group multiple variables together into one custom type.</p>
+
+        <p>Example:</p>
+
+        <pre><code>struct Player
+{
+    string name;
+    int health;
+    float speed;
+};</code></pre>
+
+        <p>You can then create a Player:</p>
+
+        <pre><code>Player player;
+
+player.name = "Mark";
+player.health = 100;
+player.speed = 5.0;</code></pre>
+
+        <p>This is very useful when you want to store multiple pieces of information about something, such as a player, enemy, item or game object.</p>
+    </div>
+
+    <div>
+        <h2>CLASSES</h2>
+
+        <p>A <a><code>class</code></a> is used to create custom objects that can contain variables and functions.</p>
+
+        <pre><code>class Player
+{
+public:
+
+    int health = 100;
+
+    void takeDamage(int damage)
+    {
+        health -= damage;
+    }
+};</code></pre>
+
+        <p>You can create an object from the class:</p>
+
+        <pre><code>Player player;
+
+player.takeDamage(20);</code></pre>
+
+        <p>Classes are very important in larger programs and game development because they allow you to organize related data and functionality together.</p>
+    </div>
+
+    <div>
+        <h2>POINTERS</h2>
+
+        <p>A pointer is a variable that stores the memory address of another variable.</p>
+
+        <pre><code>int number = 50;
+
+int* pointer = &amp;number;</code></pre>
+
+        <p><a><code>&amp;</code></a> gets the memory address of the variable.</p>
+
+        <p><a><code>*</code></a> can be used to access the value stored at the address.</p>
+
+        <pre><code>std::cout &lt;&lt; *pointer;</code></pre>
+
+        <p>Pointers are very useful in C++, especially for memory management, advanced data structures, game engines and working directly with memory.</p>
+    </div>
+
+    <div>
+        <h2>REFERENCES</h2>
+
+        <p>A reference is another name for an existing variable.</p>
+
+        <pre><code>int number = 50;
+
+int&amp; reference = number;
+
+reference = 100;</code></pre>
+
+        <p>After changing <a><code>reference</code></a>, the original <a><code>number</code></a> is also changed.</p>
+
+        <p>References are commonly used when passing variables into functions without making a copy.</p>
+
+        <pre><code>void changeNumber(int&amp; number)
+{
+    number = 100;
+}</code></pre>
+    </div>
+
+    <div>
+        <h2>HEADERS</h2>
+
+        <p>Headers allow you to use functionality provided by the C++ standard library or other libraries.</p>
+
+        <p>For example, to use <a><code>std::cout</code></a>:</p>
+
+        <pre><code>#include &lt;iostream&gt;</code></pre>
+
+        <p>To use <a><code>std::vector</code></a>:</p>
+
+        <pre><code>#include &lt;vector&gt;</code></pre>
+
+        <p>To use strings:</p>
+
+        <pre><code>#include &lt;string&gt;</code></pre>
+
+        <p>Some common headers:</p>
+
+        <p><a><code>&lt;iostream&gt;</code></a> ---> console input/output</p>
+        <p><a><code>&lt;string&gt;</code></a> ---> strings</p>
+        <p><a><code>&lt;vector&gt;</code></a> ---> vectors</p>
+        <p><a><code>&lt;cmath&gt;</code></a> ---> mathematical functions</p>
+        <p><a><code>&lt;fstream&gt;</code></a> ---> file reading/writing</p>
+        <p><a><code>&lt;algorithm&gt;</code></a> ---> algorithms such as sorting</p>
+    </div>
+
+    <div>
+        <h2>NAMESPACES</h2>
+
+        <p>C++ uses namespaces to organize names and prevent naming conflicts.</p>
+
+        <p>You have probably seen <a><code>std::</code></a> many times:</p>
+
+        <pre><code>std::cout
+std::string
+std::vector</code></pre>
+
+        <p><a><code>std</code></a> is the namespace containing many things from the C++ standard library.</p>
+
+        <p>The <a><code>::</code></a> is called the scope resolution operator.</p>
+    </div>
+
+    <div>
+        <h2>CURLY BRACKETS</h2>
+
+        <p><a><code>{ }</code></a> are used to create a block of code.</p>
+
+        <p>They are commonly used with functions:</p>
+
+        <pre><code>void hello()
+{
+    std::cout &lt;&lt; "Hello!";
+}</code></pre>
+
+        <p>They are also used with conditions:</p>
+
+        <pre><code>if (age &gt;= 18)
+{
+    std::cout &lt;&lt; "Adult";
+}</code></pre>
+
+        <p>Everything inside the curly brackets belongs to that block.</p>
+    </div>
+
+    <div>
+        <h2>INCREMENT AND DECREMENT</h2>
+
+        <p>You can increase an integer by 1 using <a><code>++</code></a>:</p>
+
+        <pre><code>int number = 5;
+
+number++;</code></pre>
+
+        <p>Now <a><code>number</code></a> is 6.</p>
+
+        <p>You can decrease an integer by 1 using <a><code>--</code></a>:</p>
+
+        <pre><code>number--;</code></pre>
+
+        <p>These are very commonly used in loops.</p>
+    </div>
+
+    <div>
+        <h2>TYPE CONVERSION</h2>
+
+        <p>Sometimes you need to convert a value from one type to another.</p>
+
+        <p>For example:</p>
+
+        <pre><code>float number = 5.7;
+
+int wholeNumber = (int)number;</code></pre>
+
+        <p>The decimal part is removed, so <a><code>wholeNumber</code></a> becomes <a><code>5</code></a>.</p>
+
+        <p>You can also use modern C++ casts:</p>
+
+        <pre><code>int wholeNumber = static_cast&lt;int&gt;(number);</code></pre>
+    </div>
+
+</body>
+</html>

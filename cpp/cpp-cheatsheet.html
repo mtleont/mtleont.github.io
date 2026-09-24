@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ Cheatsheet</title>
+<style>
+    :root {
+        --bg: #0f1117;
+        --card: #171a22;
+        --card2: #1d212b;
+        --text: #e8ecf1;
+        --muted: #aab2bf;
+        --accent: #61dafb;
+        --green: #7ee787;
+        --border: #2b313d;
+        --code: #0b0d12;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+    }
+
+    header {
+        padding: 45px 20px;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(135deg, #111827, #151922);
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 42px;
+    }
+
+    header p {
+        color: var(--muted);
+        margin: 8px 0 0;
+    }
+
+    nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(15,17,23,.95);
+        border-bottom: 1px solid var(--border);
+        padding: 12px;
+        text-align: center;
+    }
+
+    nav a {
+        color: var(--accent);
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 14px;
+    }
+
+    nav a:hover { text-decoration: underline; }
+
+    main {
+        max-width: 1200px;
+        margin: auto;
+        padding: 25px;
+    }
+
+    section {
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        color: var(--accent);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 8px;
+    }
+
+    h3 {
+        color: var(--green);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+    }
+
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px;
+    }
+
+    pre {
+        background: var(--code);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 15px;
+        overflow-x: auto;
+        color: #d7e0ea;
+    }
+
+    code {
+        font-family: Consolas, "Courier New", monospace;
+    }
+
+    .inline {
+        background: var(--card2);
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: var(--green);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--card);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 11px;
+        border: 1px solid var(--border);
+        text-align: left;
+    }
+
+    th {
+        background: var(--card2);
+        color: var(--accent);
+    }
+
+    footer {
+        text-align: center;
+        color: var(--muted);
+        padding: 30px;
+        border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+        header h1 { font-size: 32px; }
+        main { padding: 15px; }
+        nav a { display: inline-block; margin: 4px 6px; }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>C++ Cheatsheet</h1>
+    <p>A quick reference for modern C++ programming</p>
+</header>
+
+<nav>
+    <a href="#basics">Basics</a>
+    <a href="#types">Types</a>
+    <a href="#conditions">Conditions</a>
+    <a href="#loops">Loops</a>
+    <a href="#functions">Functions</a>
+    <a href="#arrays">Arrays</a>
+    <a href="#vectors">Vectors</a>
+    <a href="#classes">Classes</a>
+    <a href="#pointers">Pointers</a>
+    <a href="#stl">STL</a>
+</nav>
+
+<main>
+
+<section id="basics">
+<h2>1. Basic Program</h2>
+<pre><code>#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Hello, World!\n";
+    return 0;
+}</code></pre>
+
+<h3>Comments</h3>
+<pre><code>// Single-line comment
+
+/*
+   Multi-line
+   comment
+*/</code></pre>
+</section>
+
+<section id="types">
+<h2>2. Variables &amp; Data Types</h2>
+
+<table>
+<tr><th>Type</th><th>Example</th><th>Purpose</th></tr>
+<tr><td>int</td><td>42</td><td>Whole numbers</td></tr>
+<tr><td>float</td><td>3.14f</td><td>Decimal numbers</td></tr>
+<tr><td>double</td><td>3.14159</td><td>More precise decimals</td></tr>
+<tr><td>char</td><td>'A'</td><td>Single character</td></tr>
+<tr><td>bool</td><td>true</td><td>True/false</td></tr>
+<tr><td>string</td><td>"Hello"</td><td>Text</td></tr>
+<tr><td>auto</td><td>auto x = 10;</td><td>Compiler-deduced type</td></tr>
+</table>
+
+<pre><code>int age = 15;
+float speed = 3.14f;
+double pi = 3.1415926535;
+char letter = 'A';
+bool enabled = true;
+std::string name = "Mark";
+
+const int MAX = 100;</code></pre>
+</section>
+
+<section>
+<h2>3. Input &amp; Output</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+std::cout &lt;&lt; "Hello!\n";
+
+int age;
+std::cin &gt;&gt; age;
+
+std::string name;
+std::cin &gt;&gt; name;
+
+// Read an entire line
+std::getline(std::cin, name);</code></pre>
+</section>
+
+<section id="conditions">
+<h2>4. Conditions</h2>
+<pre><code>if (age &gt;= 18) {
+    std::cout &lt;&lt; "Adult";
+}
+else if (age &gt;= 13) {
+    std::cout &lt;&lt; "Teen";
+}
+else {
+    std::cout &lt;&lt; "Child";
+}</code></pre>
+
+<h3>Operators</h3>
+<table>
+<tr><th>Operator</th><th>Meaning</th></tr>
+<tr><td>==</td><td>Equal</td></tr>
+<tr><td>!=</td><td>Not equal</td></tr>
+<tr><td>&gt;</td><td>Greater than</td></tr>
+<tr><td>&lt;</td><td>Less than</td></tr>
+<tr><td>&gt;=</td><td>Greater/equal</td></tr>
+<tr><td>&lt;=</td><td>Less/equal</td></tr>
+<tr><td>&amp;&amp;</td><td>AND</td></tr>
+<tr><td>||</td><td>OR</td></tr>
+<tr><td>!</td><td>NOT</td></tr>
+</table>
+</section>
+
+<section>
+<h2>5. switch</h2>
+<pre><code>int choice = 2;
+
+switch (choice) {
+    case 1:
+        std::cout &lt;&lt; "One";
+        break;
+
+    case 2:
+        std::cout &lt;&lt; "Two";
+        break;
+
+    default:
+        std::cout &lt;&lt; "Unknown";
+        break;
+}</code></pre>
+</section>
+
+<section id="loops">
+<h2>6. Loops</h2>
+
+<h3>for</h3>
+<pre><code>for (int i = 0; i &lt; 10; i++) {
+    std::cout &lt;&lt; i &lt;&lt; "\n";
+}</code></pre>
+
+<h3>while</h3>
+<pre><code>while (running) {
+    update();
+}</code></pre>
+
+<h3>do while</h3>
+<pre><code>do {
+    std::cout &lt;&lt; "Hello";
+} while (condition);</code></pre>
+
+<h3>Range-based for</h3>
+<pre><code>for (int value : numbers) {
+    std::cout &lt;&lt; value;
+}</code></pre>
+
+<pre><code>break;      // Exit loop
+continue;   // Skip current iteration</code></pre>
+</section>
+
+<section id="functions">
+<h2>7. Functions</h2>
+<pre><code>int add(int a, int b) {
+    return a + b;
+}
+
+int result = add(5, 3);</code></pre>
+
+<h3>void function</h3>
+<pre><code>void hello() {
+    std::cout &lt;&lt; "Hello!";
+}</code></pre>
+
+<h3>Default arguments</h3>
+<pre><code>void greet(std::string name = "Player") {
+    std::cout &lt;&lt; "Hello " &lt;&lt; name;
+}</code></pre>
+
+<h3>Pass by reference</h3>
+<pre><code>void change(int&amp; x) {
+    x = 100;
+}</code></pre>
+</section>
+
+<section id="arrays">
+<h2>8. Arrays</h2>
+<pre><code>int numbers[5] = {1, 2, 3, 4, 5};
+
+std::cout &lt;&lt; numbers[0];
+
+for (int i = 0; i &lt; 5; i++) {
+    std::cout &lt;&lt; numbers[i];
+}</code></pre>
+
+<h3>Multidimensional array</h3>
+<pre><code>int map[10][10];
+
+map[2][5] = 1;</code></pre>
+</section>
+
+<section id="vectors">
+<h2>9. std::vector</h2>
+<pre><code>#include &lt;vector&gt;
+
+std::vector&lt;int&gt; numbers;
+
+numbers.push_back(10);
+numbers.push_back(20);
+
+numbers.pop_back();
+
+std::cout &lt;&lt; numbers.size();
+std::cout &lt;&lt; numbers[0];</code></pre>
+
+<h3>Loop through a vector</h3>
+<pre><code>for (int x : numbers) {
+    std::cout &lt;&lt; x &lt;&lt; "\n";
+}</code></pre>
+</section>
+
+<section id="strings">
+<h2>10. Strings</h2>
+<pre><code>#include &lt;string&gt;
+
+std::string name = "Mark";
+
+name += "!";
+name.length();
+name.empty();
+
+std::cout &lt;&lt; name;</code></pre>
+</section>
+
+<section id="classes">
+<h2>11. Classes &amp; Objects</h2>
+<pre><code>class Player {
+public:
+    std::string name;
+    int health;
+
+    void sayHello() {
+        std::cout &lt;&lt; "Hello!";
+    }
+};
+
+int main() {
+    Player player;
+
+    player.name = "Player1";
+    player.health = 100;
+
+    player.sayHello();
+}</code></pre>
+
+<h3>Constructor</h3>
+<pre><code>class Player {
+public:
+    std::string name;
+    int health;
+
+    Player(std::string n, int h)
+        : name(n), health(h) {}
+};
+
+Player player("Mark", 100);</code></pre>
+
+<h3>Inheritance</h3>
+<pre><code>class Animal {
+public:
+    void speak() {
+        std::cout &lt;&lt; "Sound";
+    }
+};
+
+class Dog : public Animal {
+public:
+    void bark() {
+        std::cout &lt;&lt; "Woof!";
+    }
+};</code></pre>
+</section>
+
+<section id="pointers">
+<h2>12. Pointers &amp; References</h2>
+
+<pre><code>int x = 10;
+
+int* ptr = &amp;x;
+
+std::cout &lt;&lt; *ptr;  // Value
+std::cout &lt;&lt; ptr;   // Address</code></pre>
+
+<h3>Reference</h3>
+<pre><code>int x = 10;
+int&amp; ref = x;
+
+ref = 20;
+// x is now 20</code></pre>
+
+<h3>Dynamic memory</h3>
+<pre><code>int* number = new int(42);
+
+std::cout &lt;&lt; *number;
+
+delete number;</code></pre>
+
+<p>Prefer smart pointers in modern C++:</p>
+<pre><code>#include &lt;memory&gt;
+
+auto ptr = std::make_unique&lt;int&gt;(42);</code></pre>
+</section>
+
+<section>
+<h2>13. Structs</h2>
+<pre><code>struct Player {
+    std::string name;
+    int health;
+};
+
+Player p{"Mark", 100};</code></pre>
+</section>
+
+<section id="stl">
+<h2>14. Useful STL Containers</h2>
+
+<table>
+<tr><th>Container</th><th>Example</th><th>Use</th></tr>
+<tr><td>vector</td><td>std::vector&lt;int&gt;</td><td>Dynamic array</td></tr>
+<tr><td>array</td><td>std::array&lt;int, 5&gt;</td><td>Fixed-size array</td></tr>
+<tr><td>string</td><td>std::string</td><td>Text</td></tr>
+<tr><td>map</td><td>std::map&lt;string, int&gt;</td><td>Key/value pairs</td></tr>
+<tr><td>unordered_map</td><td>std::unordered_map</td><td>Fast hash map</td></tr>
+<tr><td>set</td><td>std::set&lt;int&gt;</td><td>Unique sorted values</td></tr>
+<tr><td>queue</td><td>std::queue&lt;int&gt;</td><td>FIFO</td></tr>
+<tr><td>stack</td><td>std::stack&lt;int&gt;</td><td>LIFO</td></tr>
+</table>
+</section>
+
+<section>
+<h2>15. Useful Algorithms</h2>
+<pre><code>#include &lt;algorithm&gt;
+
+std::sort(numbers.begin(), numbers.end());
+
+std::reverse(numbers.begin(), numbers.end());
+
+auto it = std::find(
+    numbers.begin(),
+    numbers.end(),
+    10
+);</code></pre>
+</section>
+
+<section>
+<h2>16. File I/O</h2>
+<pre><code>#include &lt;fstream&gt;
+
+std::ofstream file("data.txt");
+file &lt;&lt; "Hello file!";
+file.close();
+
+std::ifstream input("data.txt");
+
+std::string line;
+while (std::getline(input, line)) {
+    std::cout &lt;&lt; line &lt;&lt; "\n";
+}
+
+input.close();</code></pre>
+</section>
+
+<section>
+<h2>17. Namespaces</h2>
+<pre><code>namespace Game {
+    int score = 100;
+}
+
+std::cout &lt;&lt; Game::score;</code></pre>
+
+<p>You can use:</p>
+<pre><code>using namespace std;
+
+// Then:
+cout &lt;&lt; "Hello";</code></pre>
+<p>For larger projects, explicitly using <span class="inline">std::</span> is generally safer.</p>
+</section>
+
+<section>
+<h2>18. Enums</h2>
+<pre><code>enum class State {
+    Menu,
+    Playing,
+    GameOver
+};
+
+State state = State::Playing;
+
+if (state == State::Playing) {
+    // Game running
+}</code></pre>
+</section>
+
+<section>
+<h2>19. Operators</h2>
+<table>
+<tr><th>Operator</th><th>Example</th></tr>
+<tr><td>+</td><td>a + b</td></tr>
+<tr><td>-</td><td>a - b</td></tr>
+<tr><td>*</td><td>a * b</td></tr>
+<tr><td>/</td><td>a / b</td></tr>
+<tr><td>%</td><td>a % b</td></tr>
+<tr><td>++</td><td>i++</td></tr>
+<tr><td>--</td><td>i--</td></tr>
+<tr><td>=</td><td>x = 5</td></tr>
+<tr><td>+=</td><td>x += 5</td></tr>
+<tr><td>-=</td><td>x -= 5</td></tr>
+<tr><td>*=</td><td>x *= 5</td></tr>
+<tr><td>/=</td><td>x /= 5</td></tr>
+</table>
+</section>
+
+<section>
+<h2>20. Preprocessor</h2>
+<pre><code>#include &lt;iostream&gt;
+
+#define PI 3.14159
+
+#ifdef DEBUG
+    std::cout &lt;&lt; "Debug mode";
+#endif</code></pre>
+</section>
+
+<section>
+<h2>21. Useful Headers</h2>
+<table>
+<tr><th>Header</th><th>Common use</th></tr>
+<tr><td>&lt;iostream&gt;</td><td>Input/output</td></tr>
+<tr><td>&lt;string&gt;</td><td>Strings</td></tr>
+<tr><td>&lt;vector&gt;</td><td>Dynamic arrays</td></tr>
+<tr><td>&lt;array&gt;</td><td>Fixed arrays</td></tr>
+<tr><td>&lt;algorithm&gt;</td><td>Algorithms</td></tr>
+<tr><td>&lt;cmath&gt;</td><td>Math</td></tr>
+<tr><td>&lt;fstream&gt;</td><td>Files</td></tr>
+<tr><td>&lt;memory&gt;</td><td>Smart pointers</td></tr>
+<tr><td>&lt;map&gt;</td><td>Ordered maps</td></tr>
+<tr><td>&lt;unordered_map&gt;</td><td>Hash maps</td></tr>
+<tr><td>&lt;set&gt;</td><td>Sets</td></tr>
+<tr><td>&lt;random&gt;</td><td>Random numbers</td></tr>
+</table>
+</section>
+
+<section>
+<h2>22. Compile with g++</h2>
+<pre><code>g++ main.cpp -o main
+
+./main</code></pre>
+
+<h3>Modern C++</h3>
+<pre><code>g++ main.cpp -std=c++17 -o main
+g++ main.cpp -std=c++20 -o main
+g++ main.cpp -std=c++23 -o main</code></pre>
+
+<h3>Multiple source files</h3>
+<pre><code>g++ src/*.cpp -o game</code></pre>
+</section>
+
+<section>
+<h2>23. Quick Game-Dev Pattern</h2>
+<pre><code>#include &lt;iostream&gt;
+
+class Player {
+public:
+    float x = 0;
+    float y = 0;
+    int health = 100;
+
+    void update() {
+        x += 1;
+    }
+
+    void draw() {
+        std::cout &lt;&lt; "Player: "
+                  &lt;&lt; x &lt;&lt; ", "
+                  &lt;&lt; y &lt;&lt; "\n";
+    }
+};
+
+int main() {
+    Player player;
+
+    bool running = true;
+
+    while (running) {
+        player.update();
+        player.draw();
+
+        if (player.x &gt; 10)
+            running = false;
+    }
+
+    return 0;
+}</code></pre>
+</section>
+
+</main>
+
+<footer>
+    C++ Cheatsheet - Quick reference for learning and game development
+</footer>
+
+</body>
+</html>
