@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101018">
+  <meta name="description" content="PXL/1 is a C++17 retro-style game engine core with OpenGL rendering, bitmap text, interactive UI widgets, input, 2D drawing, 3D meshes, and textures.">
+  <title>PXL/1 — Make it low-res</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="PXL/1 home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span>PXL<span class="brand-slash">/</span>1</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span>
+      <span class="sr-only">Toggle navigation</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <a href="#features">Features</a>
+      <a href="#start">Get started</a>
+      <a href="#examples">Examples</a>
+      <a href="#api">API reference</a>
+      <a class="nav-cta" href="#start">Build something <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero section-wrap" id="top">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-dot"></span> C++17 GAME ENGINE CORE <span class="eyebrow-sep">/</span> OPENGL 3.3</div>
+        <h1>Make it<br><span class="headline-accent">low-res.</span></h1>
+        <p class="hero-lead">A tiny, hands-on C++ game engine core for crunchy pixels, bitmap text, simple UI, affine textures, and worlds that feel like they came from another era.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#start">Get started <span aria-hidden="true">↓</span></a>
+          <a class="button button-quiet" href="#examples">Explore the API <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-meta"><span>NO GAME ENGINE BLOAT</span><span class="meta-divider"></span><span>YOU OWN THE LOOP</span><span class="meta-divider"></span><span>BUILT WITH C++</span></div>
+      </div>
+      <div class="hero-art">
+        <div class="art-frame">
+          <div class="art-topline"><span><b></b><b></b><b></b></span><span>SCENE_001.PXL</span><span>320 × 240</span></div>
+          <div class="art-image">
+            <img src="assets/DEMO_3D.gif" alt="A low-resolution blue sphere and an orange checker-textured 3D cube rotating in a dark scene">
+            <div class="art-crosshair" aria-hidden="true"></div>
+            <div class="art-caption"><span>LIVE RENDER</span><span>RGB5 / NEAREST</span></div>
+          </div>
+          <div class="art-bottomline"><span><span class="live-dot"></span> RENDERING</span><span>FRAME <b>000128</b></span><span>60 FPS</span></div>
+        </div>
+        <span class="art-coordinate coord-one">X: 001.5</span>
+        <span class="art-coordinate coord-two">GL_CORE // 03</span>
+      </div>
+      <div class="hero-scroll" aria-hidden="true"><span></span> SCROLL TO EXPLORE</div>
+    </section>
+
+    <section class="ticker" aria-label="Engine highlights">
+      <div class="ticker-track">
+        <span>LOW RESOLUTION</span><b>✳</b><span>OPENGL 3.3</span><b>✳</b><span>AFFINE UVS</span><b>✳</b><span>PS1-INSPIRED</span><b>✳</b><span>JUST C++</span><b>✳</b><span>LOW RESOLUTION</span><b>✳</b><span>OPENGL 3.3</span><b>✳</b><span>AFFINE UVS</span><b>✳</b><span>PS1-INSPIRED</span><b>✳</b><span>JUST C++</span><b>✳</b>
+      </div>
+    </section>
+
+    <section class="section section-wrap features-section" id="features">
+      <div class="section-heading">
+        <div><span class="section-index">01 / WHY PXL/1</span><h2>Old-school look.<br><span class="muted-heading">Your own rules.</span></h2></div>
+        <p>No editor to learn. No scene graph to fight. Just a small C++ API that gets out of your way and makes every pixel count.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card feature-card-large">
+          <div class="feature-icon icon-screen" aria-hidden="true"><span></span></div>
+          <div class="feature-number">01</div>
+          <h3>Retro by design</h3>
+          <p>Render to a low-resolution RGB5 target, snap geometry to pixels, then upscale with nearest-neighbor filtering. The look is part of the renderer.</p>
+          <span class="feature-tag">320 × 240 / RGB5 / DITHER</span>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon icon-cube" aria-hidden="true"><span></span></div>
+          <div class="feature-number">02</div>
+          <h3>Real 3D, tiny API</h3>
+          <p>Generate cubes and spheres, load OBJ meshes, set up a camera, and draw textured models with a few calls.</p>
+          <span class="feature-tag">MESH / CAMERA / OBJ</span>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon icon-code" aria-hidden="true"><span>&lt;/&gt;</span></div>
+          <div class="feature-number">03</div>
+          <h3>One friendly include</h3>
+          <p>Start with <code>pxl1.h</code> for the easy game-style API. Reach for the lower-level window, renderer, and texture types when you want control.</p>
+          <span class="feature-tag">C++17 / SIMPLE API</span>
+        </article>
+        <article class="feature-card feature-card-wide">
+          <div class="feature-icon icon-bolt" aria-hidden="true"><span>↗</span></div>
+          <div class="feature-number">04</div>
+          <h3>GPU-backed. Batch-minded.</h3>
+          <p>SDL2 opens the window, OpenGL 3.3 draws the scene, and consecutive triangles sharing a texture are streamed together as a batch.</p>
+          <span class="feature-tag">SDL2 + GLEW + OPENGL</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="showcase-section" aria-label="3D demo">
+      <div class="showcase-inner section-wrap">
+        <div class="showcase-label"><span class="section-index">PXL/1 IN MOTION</span><span class="live-dot"></span> REAL ENGINE OUTPUT</div>
+        <figure class="showcase-figure">
+          <img src="assets/DEMO_3D.gif" alt="PXL/1 3D demo: a blue sphere and rotating orange textured cube">
+          <figcaption><span>01 / SPHERE + TEXTURED CUBE</span><span>REAL-TIME / LOW-RES</span></figcaption>
+        </figure>
+        <div class="showcase-note"><span aria-hidden="true">✳</span><p>Geometry in. Pixels out.<br><strong>Keep the happy accidents.</strong></p></div>
+      </div>
+    </section>
+
+    <section class="section section-wrap start-section" id="start">
+      <div class="section-heading">
+        <div><span class="section-index">02 / FIRST BUILD</span><h2>Get pixels<br><span class="muted-heading">on screen.</span></h2></div>
+        <p>PXL/1 uses SDL2 for windows and input, SDL2_image for loading textures, GLEW to load OpenGL, and OpenGL 3.3 for rendering.</p>
+      </div>
+      <div class="setup-grid">
+        <div class="setup-aside">
+          <div class="setup-step"><span class="step-dot">01</span><div><h3>Install the tools</h3><p>In an MSYS2 UCRT64 terminal, install the compiler and libraries.</p></div></div>
+          <div class="setup-step"><span class="step-dot">02</span><div><h3>Build the project</h3><p>CMake configures the g++ build and compiles the library and examples.</p></div></div>
+          <div class="setup-step"><span class="step-dot">03</span><div><h3>Run a sample</h3><p>Launch the 3D demo or game and start experimenting.</p></div></div>
+          <a href="#examples" class="text-link">Jump to code examples <span>→</span></a>
+        </div>
+        <div class="terminal-card">
+          <div class="terminal-head"><div class="terminal-lights"><i></i><i></i><i></i></div><span>MSYS2 UCRT64 — bash</span><button class="copy-button" type="button" data-copy="install" aria-label="Copy install commands">COPY</button></div>
+          <pre><code id="install"><span class="code-comment"># Install compiler, CMake, and graphics dependencies</span>
+<span class="code-prompt">$</span> pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake \
+  mingw-w64-ucrt-x86_64-pkgconf mingw-w64-ucrt-x86_64-SDL2 \
+  mingw-w64-ucrt-x86_64-SDL2_image mingw-w64-ucrt-x86_64-glew
+
+<span class="code-comment"># Configure, build, and test with g++</span>
+<span class="code-prompt">$</span> cmake -S . -B build-gcc -G "MinGW Makefiles" \
+  -DCMAKE_CXX_COMPILER=g++
+<span class="code-prompt">$</span> cmake --build build-gcc
+<span class="code-prompt">$</span> ctest --test-dir build-gcc --output-on-failure
+
+<span class="code-comment"># Run a demo</span>
+<span class="code-prompt">$</span> ./build-gcc/pxl1_3d_demo.exe</code></pre>
+          <div class="terminal-foot"><span><i></i> READY TO COMPILE</span><span>C++17 · MINGW64</span></div>
+        </div>
+      </div>
+      <div class="callout"><span class="callout-icon">i</span><p><strong>Single header:</strong> <code>pxl1.h</code> contains the PXL/1 API and backend. Define <code>PXL1_IMPLEMENTATION</code> in one source file. SDL2, SDL2_image, GLEW, and OpenGL are still external dependencies that must be installed and linked.</p></div>
+    </section>
+
+    <section class="section examples-section" id="examples">
+      <div class="section-wrap">
+        <div class="section-heading">
+          <div><span class="section-index">03 / COPY, TWEAK, PLAY</span><h2>Small calls.<br><span class="muted-heading">Big worlds.</span></h2></div>
+          <p>Use the convenience API to get moving, or work directly with the renderer. These examples match the current PXL/1 interface.</p>
+        </div>
+        <div class="example-layout">
+          <aside class="example-tabs" role="tablist" aria-label="Code example">
+            <button class="example-tab is-active" type="button" role="tab" aria-selected="true" data-example="loop"><span>01</span><b>Game loop</b><span class="tab-arrow">↗</span></button>
+            <button class="example-tab" type="button" role="tab" aria-selected="false" data-example="texture"><span>02</span><b>Textured 3D</b><span class="tab-arrow">↗</span></button>
+            <button class="example-tab" type="button" role="tab" aria-selected="false" data-example="mesh"><span>03</span><b>Mesh + camera</b><span class="tab-arrow">↗</span></button>
+            <button class="example-tab" type="button" role="tab" aria-selected="false" data-example="ui"><span>04</span><b>Text + UI</b><span class="tab-arrow">↗</span></button>
+          </aside>
+          <div class="example-panel">
+            <div class="example-panel-head"><div><span class="file-dot"></span><span id="example-filename">main.cpp</span></div><button class="copy-button" type="button" data-copy="example-code">COPY CODE</button></div>
+            <pre class="code-window"><code id="example-code" aria-live="polite"></code></pre>
+            <div class="example-panel-foot"><span id="example-description">Window · input · frame · draw · present</span><span>C++17</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-wrap api-section" id="api">
+      <div class="section-heading">
+        <div><span class="section-index">04 / QUICK REFERENCE</span><h2>Your toolkit,<br><span class="muted-heading">at a glance.</span></h2></div>
+        <p>The simple helpers live in the <code>pxl1</code> namespace. Include <code>pxl1.h</code> and compile its implementation once.</p>
+      </div>
+      <div class="api-table">
+        <div class="api-row api-header"><span>FUNCTION</span><span>WHAT IT DOES</span><span>EXAMPLE</span></div>
+        <div class="api-row"><code>InitWindow(w, h, title)</code><span>Open an SDL2 window and OpenGL context</span><code>InitWindow(960, 720, "Game")</code></div>
+        <div class="api-row"><code>BeginDrawing(color)</code><span>Start a frame and clear its background</span><code>BeginDrawing(colors::black)</code></div>
+        <div class="api-row"><code>EndDrawing()</code><span>Present the frame; applies the target FPS cap</span><code>EndDrawing()</code></div>
+        <div class="api-row"><code>IsKeyDown(key)</code><span>Check whether a key is held</span><code>IsKeyDown(Key::space)</code></div>
+        <div class="api-row"><code>GetMousePosition()</code><span>Get pointer position in low-resolution render coordinates</span><code>const auto mouse = GetMousePosition()</code></div>
+        <div class="api-row"><code>GetMouseDelta()</code><span>Read this frame's relative mouse movement in window pixels</span><code>const auto delta = GetMouseDelta()</code></div>
+        <div class="api-row"><code>DisableCursor / EnableCursor</code><span>Capture and hide the cursor, then release and show it</span><code>DisableCursor()</code></div>
+        <div class="api-row"><code>UpdateCameraFromMouse(camera)</code><span>Apply relative mouse motion as first-person look</span><code>UpdateCameraFromMouse(camera)</code></div>
+        <div class="api-row"><code>UpdateOrbitCameraFromMouse(camera)</code><span>Orbit a camera around its target using mouse motion</span><code>UpdateOrbitCameraFromMouse(camera)</code></div>
+        <div class="api-row"><code>IsMouseButtonPressed(button)</code><span>Check for a click during this frame</span><code>IsMouseButtonPressed(MouseButton::left)</code></div>
+        <div class="api-row"><code>DrawRectangle(...)</code><span>Draw a filled low-resolution rectangle</span><code>DrawRectangle(8, 8, 32, 16, color)</code></div>
+        <div class="api-row"><code>DrawText(text, x, y, size, color)</code><span>Draw crisp embedded bitmap text</span><code>DrawText("SCORE", 8, 8, 10, color)</code></div>
+        <div class="api-row"><code>DrawTextEx / DrawTextRec</code><span>Draw spaced or word-wrapped text</span><code>DrawTextEx("PXL/1", pos, 8, 1, color)</code></div>
+        <div class="api-row"><code>MeasureText / MeasureTextEx</code><span>Measure text before placing UI</span><code>MeasureText("START", 8)</code></div>
+        <div class="api-row"><code>GuiButton(bounds, text)</code><span>Draw a button and report a click</span><code>if (GuiButton(rect, "PLAY")) { ... }</code></div>
+        <div class="api-row"><code>GuiCheckBox / GuiSlider</code><span>Draw and interact with common controls</span><code>volume = GuiSlider(rect, volume, 0, 1)</code></div>
+        <div class="api-row"><code>GuiProgressBar / GuiPanel</code><span>Draw status bars and UI panels</span><code>GuiProgressBar(rect, hp, 0, maxHp)</code></div>
+        <div class="api-row"><code>DrawCircleLines(...)</code><span>Draw a custom circle outline</span><code>DrawCircleLines(40, 40, 12, color)</code></div>
+        <div class="api-row"><code>DrawPoly(points, count, color)</code><span>Fill a custom convex polygon</span><code>DrawPoly(points, 5, color)</code></div>
+        <div class="api-row"><code>DrawPolyLines(points, count, color)</code><span>Outline a custom polygon</span><code>DrawPolyLines(points, 5, color)</code></div>
+        <div class="api-row"><code>DrawTexture(texture, x, y)</code><span>Draw a loaded texture as a 2D image</span><code>DrawTexture(texture, 8, 8)</code></div>
+        <div class="api-row"><code>DrawCube(pos, size, texture)</code><span>Draw a UV-mapped 3D cube with depth testing</span><code>DrawCube(pos, size, texture)</code></div>
+        <div class="api-row"><code>SetCamera(camera)</code><span>Set the perspective camera for 3D drawing</span><code>SetCamera(camera)</code></div>
+        <div class="api-row"><code>LoadModel(path)</code><span>Load an OBJ mesh and UV coordinates</span><code>LoadModel("ship.obj")</code></div>
+        <div class="api-row"><code>DrawModel(model, ...)</code><span>Draw an OBJ mesh, optionally textured</span><code>DrawModel(ship, pos, 1, texture)</code></div>
+        <div class="api-row"><code>LoadImage(path)</code><span>Load CPU-side image pixels</span><code>auto image = LoadImage("ship.png")</code></div>
+        <div class="api-row"><code>LoadTextureFromImage(image)</code><span>Upload image pixels to the GPU</span><code>auto tex = LoadTextureFromImage(image)</code></div>
+        <div class="api-row"><code>UnloadImage / UnloadModel</code><span>Release CPU-side image or mesh storage</span><code>UnloadImage(image)</code></div>
+        <div class="api-row"><code>UnloadTexture / UnloadAll</code><span>Release GPU textures; CloseWindow does so automatically</span><code>UnloadAll()</code></div>
+      </div>
+      <div class="api-note"><span>✳</span><p>3D uses a 24-bit depth buffer and clips against camera near/far planes. Call <code>DisableCursor()</code> and <code>UpdateCameraFromMouse(camera)</code> after event polling for first-person mouse look; use <code>UpdateOrbitCameraFromMouse</code> for third-person orbit. 2D helper draws stay layered on top.</p></div>
+    </section>
+
+    <section class="closing-section">
+      <div class="closing-grid section-wrap">
+        <div><span class="section-index">YOUR NEXT PROJECT STARTS HERE</span><h2>Make something<br><span>beautifully broken.</span></h2></div>
+        <a class="button button-primary" href="#start">Start building <span aria-hidden="true">↗</span></a>
+        <div class="closing-coordinates">PXL/1 <span>·</span> C++17 <span>·</span> OPENGL 3.3</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-wrap">
+    <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>PXL<span class="brand-slash">/</span>1</span></a>
+    <p>A little engine core for big pixel energy.</p>
+    <a href="#top" class="back-top">BACK TO TOP ↑</a>
+    <span class="footer-bottom">MADE FOR THE LOVE OF LOW RES.</span>
+  </footer>
+</body>
+</html>
