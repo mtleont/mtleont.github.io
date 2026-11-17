@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PONG - Classic Arcade</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
+body{display:grid;place-items:center}
+#screen{display:block;width:min(100vw,calc(100vh * 1.4947));height:auto;aspect-ratio:1414/946;image-rendering:pixelated;outline:none;touch-action:none}
+</style>
+</head>
+<body>
+<canvas id="screen" width="1414" height="946" tabindex="0" aria-label="Classic Pong game"></canvas>
+<script>
+(() => {
+"use strict";
+const canvas=document.getElementById("screen"),ctx=canvas.getContext("2d");
+const W=canvas.width,H=canvas.height,AS="assets/";
+const names=["background","center-line","paddle","ball",...Array.from({length:10},(_,i)=>"digit-"+i),
+"title","single-player","two-player","choose-mode","start-hint","paused","press-space",
+"player-wins","bot-wins","left-wins","right-wins","draw","again","p1-controls","p2-controls"];
+const sprites={};
+let loaded=0;
+for(const name of names){
+  const im=new Image();
+  im.src=AS+name+".png";
+  im.onload=()=>{loaded++; if(loaded===names.length) draw();};
+  im.onerror=()=>console.error("Missing sprite:",im.src);
+  sprites[name]=im;
+}
+const paddle={w:12,h:112,speed:690};
+const ballRadius=8;
+const keys=new Set();
+let mode="menu",state="menu",left,right,ball,scoreL=0,scoreR=0,last=0,acc=0;
+const FIXED=1/120,WIN_SCORE=7;
+
+// The computer has limited awareness, reaction time and movement speed.
+const bot={
+  targetY:H/2,
+  thinkTimer:0,
+  reactionDelay:0.24,
+  speed:315,
+  deadZone:20,
+  previousBallDirection:0
+};
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function resetPositions(){
+  left={x:10,y:(H-paddle.h)/2,vy:0};
+  right={x:W-22,y:(H-paddle.h)/2,vy:0};
+  ball={x:W/2,y:H/2,vx:0,vy:0};
+  bot.targetY=H/2;
+  bot.thinkTimer=0.15+Math.random()*0.2;
+  bot.previousBallDirection=0;
+}
+function serve(direction){
+  const angle=(Math.random()*0.72-0.36);
+  const speed=490;
+  ball.x=W/2;ball.y=H/2;
+  ball.vx=Math.cos(angle)*speed*direction;
+  ball.vy=Math.sin(angle)*speed;
+}
+function newMatch(selected){
+  mode=selected;scoreL=0;scoreR=0;
+  resetPositions();state="ready";serve(Math.random()<.5?-1:1);
+  draw();
+}
+function movePaddle(p,dir,dt){
+  p.vy=dir*paddle.speed;
+  p.y=clamp(p.y+p.vy*dt,0,H-paddle.h);
+  if((p.y===0&&dir<0)||(p.y===H-paddle.h&&dir>0))p.vy=0;
+}
+function collidePaddle(p,dir,dt){
+  // Discrete fixed steps keep the ball from tunnelling through the paddles.
+  const nx=ball.x+ball.vx*dt,ny=ball.y+ball.vy*dt;
+  const hitX=dir<0 ? (ball.x-ballRadius>=p.x+paddle.w && nx-ballRadius<=p.x+paddle.w)
+                   : (ball.x+ballRadius<=p.x && nx+ballRadius>=p.x);
+  if(!hitX)return false;
+  const minY=p.y-ballRadius,maxY=p.y+paddle.h+ballRadius;
+  if(ny<minY||ny>maxY)return false;
+  const impact=clamp((ny-(p.y+paddle.h/2))/(paddle.h/2),-1,1);
+  const speed=Math.min(920,Math.hypot(ball.vx,ball.vy)*1.045+8);
+  const angle=impact*1.05;
+  ball.vx=Math.cos(angle)*speed*(-dir);
+  // Paddle movement adds a little spin, but never makes the game uncontrollable.
+  ball.vy= Math.sin(angle)*speed + p.vy*0.18;
+  ball.vy=clamp(ball.vy,-760,760);
+  ball.x=dir<0?p.x+paddle.w+ballRadius:p.x-ballRadius;
+  return true;
+}
+function point(leftWon){
+  if(leftWon)scoreL++;else scoreR++;
+  if(scoreL>=WIN_SCORE||scoreR>=WIN_SCORE){state="over";return;}
+  resetPositions();
+  serve(leftWon?1:-1);
+  state="ready";
+}
+function update(dt){
+  let dl=0,dr=0;
+  if(keys.has("w"))dl--;
+  if(keys.has("s"))dl++;
+  if(keys.has("arrowup"))dr--;
+  if(keys.has("arrowdown"))dr++;
+  movePaddle(left,dl,dt);
+  if(mode==="two"){
+    movePaddle(right,dr,dt);
+  }else{
+    // Think only at intervals. The bot does not calculate the ball's exact landing point.
+    bot.thinkTimer-=dt;
+
+    const direction=Math.sign(ball.vx);
+    if(direction!==bot.previousBallDirection){
+      // Direction changes take extra time for the bot to notice.
+      bot.thinkTimer=Math.max(bot.thinkTimer,0.22+Math.random()*0.28);
+      bot.previousBallDirection=direction;
+    }
+
+    if(bot.thinkTimer<=0){
+      bot.thinkTimer=bot.reactionDelay+(Math.random()*0.18);
+
+      if(ball.vx>0){
+        // A small amount of anticipation, with a deliberately imperfect estimate.
+        const shortLookAhead=0.12+Math.random()*0.12;
+        const guess=ball.y+ball.vy*shortLookAhead;
+        const mistake=(Math.random()-0.5)*190;
+        bot.targetY=clamp(guess+mistake,ballRadius,H-ballRadius);
+      }else{
+        // When the ball travels away, the bot drifts back toward the middle.
+        bot.targetY=H/2+(Math.random()-0.5)*100;
+      }
+    }
+
+    const error=bot.targetY-(right.y+paddle.h/2);
+    const botDir=Math.abs(error)<bot.deadZone?0:Math.sign(error);
+    right.vy=botDir*bot.speed;
+    right.y=clamp(right.y+right.vy*dt,0,H-paddle.h);
+  }
+  const nx=ball.x+ball.vx*dt,ny=ball.y+ball.vy*dt;
+  if(ny-ballRadius<0){ball.y=ballRadius;ball.vy=Math.abs(ball.vy);}
+  else if(ny+ballRadius>H){ball.y=H-ballRadius;ball.vy=-Math.abs(ball.vy);}
+  collidePaddle(left,-1,dt);
+  collidePaddle(right,1,dt);
+  ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;
+  if(ball.x+ballRadius<0)point(false);
+  else if(ball.x-ballRadius>W)point(true);
+}
+function drawSprite(name,x,y,w,h){
+  const im=sprites[name];if(im&&im.complete&&im.naturalWidth)ctx.drawImage(im,x,y,w??im.width,h??im.height);
+}
+function drawScore(n,cx){
+  const str=String(n),digitW=76,gap=2,total=str.length*digitW+(str.length-1)*gap;
+  let x=cx-total/2;
+  for(const ch of str){drawSprite("digit-"+ch,x,3,digitW,100);x+=digitW+gap;}
+}
+function draw(){
+  if(!sprites.background?.complete)return;
+  ctx.clearRect(0,0,W,H);
+  drawSprite("background",0,0,W,H);
+  drawSprite("center-line",W/2-3,0,6,H);
+  drawScore(scoreL,W*.25);drawScore(scoreR,W*.75);
+  if(left&&right&&ball){
+    drawSprite("paddle",left.x,left.y,paddle.w,paddle.h);
+    drawSprite("paddle",right.x,right.y,paddle.w,paddle.h);
+    drawSprite("ball",ball.x-ballRadius,ball.y-ballRadius,ballRadius*2,ballRadius*2);
+  }
+  if(state==="menu"){
+    drawSprite("title",W/2-150,245,300,80);
+    drawSprite("choose-mode",W/2-210,390,420,44);
+    drawSprite("single-player",W/2-150,485,300,56);
+    drawSprite("two-player",W/2-150,565,300,56);
+    drawSprite("p1-controls",W/2-60,665,120,34);
+    drawSprite("p2-controls",W/2-90,705,180,34);
+  }else if(state==="ready"){
+    drawSprite("start-hint",W/2-220,H*.76,440,44);
+  }else if(state==="paused"){
+    drawSprite("paused",W/2-150,H/2-45,300,60);
+    drawSprite("press-space",W/2-250,H/2+25,500,40);
+  }else if(state==="over"){
+    const winner=scoreL>scoreR?(mode==="single"?"player-wins":"left-wins"):(mode==="single"?"bot-wins":"right-wins");
+    const ww=winner==="bot-wins"?500:((winner==="left-wins"||winner==="right-wins")?580:420);
+    drawSprite(winner,W/2-ww/2,H/2-45,ww,60);
+    drawSprite("again",W/2-260,H/2+25,520,40);
+  }
+}
+function frame(t){
+  const dt=Math.min((t-last)/1000||0,0.05);last=t;
+  if(state==="playing"){
+    acc+=dt;
+    while(acc>=FIXED){update(FIXED);acc-=FIXED;if(state!=="playing")break;}
+    draw();
+  }
+  requestAnimationFrame(frame);
+}
+function startOrPause(){
+  if(state==="ready")state="playing";
+  else if(state==="playing")state="paused";
+  else if(state==="paused")state="playing";
+  else if(state==="over")newMatch(mode);
+  draw();
+}
+window.addEventListener("keydown",e=>{
+  const k=e.key.toLowerCase();
+  if([" ","arrowup","arrowdown"].includes(k))e.preventDefault();
+  keys.add(k);
+  if(k===" "&&!e.repeat){if(state!=="menu")startOrPause();}
+  if(state==="menu"&&!e.repeat){
+    if(k==="1")newMatch("single");
+    if(k==="2")newMatch("two");
+  }
+});
+window.addEventListener("keyup",e=>keys.delete(e.key.toLowerCase()));
+window.addEventListener("blur",()=>keys.clear());
+canvas.addEventListener("click",e=>{
+  if(state!=="menu")return;
+  const r=canvas.getBoundingClientRect(),y=(e.clientY-r.top)*H/r.height;
+  if(y>=470&&y<555)newMatch("single");
+  else if(y>=555&&y<650)newMatch("two");
+});
+canvas.addEventListener("mousemove",e=>{
+  if(state==="menu"){
+    const r=canvas.getBoundingClientRect(),y=(e.clientY-r.top)*H/r.height;
+    canvas.style.cursor=(y>=470&&y<650)?"pointer":"default";
+  }
+});
+resetPositions();draw();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
